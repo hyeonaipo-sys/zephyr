@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+\<!DOCTYPE html>
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
@@ -68,8 +68,10 @@ body.theme-green  .t3{color:rgba(8,48,14,0.88);}
 body.theme-aurora .t3{color:rgba(190,255,232,0.88);}
 body.theme-night  .t3{color:rgba(208,215,255,0.90);}
 
-#screen-map{flex:1;display:flex;flex-direction:column;overflow:hidden;}
-.map-header{padding:24px 20px 12px;display:flex;justify-content:space-between;align-items:flex-end;flex-shrink:0;}
+#screen-map{flex:1;display:flex;flex-direction:column;overflow-y:auto;overflow-x:hidden;}
+#map-container{position:relative;width:100%;padding-top:100%;flex-shrink:0;}
+#map{position:absolute;inset:0;z-index:1;}
+.list-wrap{flex-shrink:0;}.map-header{padding:24px 20px 12px;display:flex;justify-content:space-between;align-items:flex-end;flex-shrink:0;}
 .logo{font-family:'Fragille','Roses Bolero',Georgia,serif !important;font-style:normal;font-size:34px;font-weight:400;letter-spacing:0.06em;}
 .logo-sub{font-size:9px;letter-spacing:0.14em;text-transform:uppercase;margin-top:2px;}
 .add-btn{width:34px;height:34px;border-radius:50%;border:1px solid rgba(255,255,255,0.68);box-shadow:inset 0 1.5px 0 rgba(255,255,255,0.88);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:opacity .2s;flex-shrink:0;}
@@ -86,14 +88,25 @@ body.theme-night  .add-btn svg{stroke:rgba(200,210,255,0.80);}
 .stat-card{flex:1;border-radius:13px;padding:10px 11px;}
 .stat-num{font-size:19px;font-weight:500;letter-spacing:-0.02em;}
 .stat-lbl{font-size:8px;letter-spacing:0.09em;text-transform:uppercase;margin-top:2px;}
-#map{flex:1;min-height:200px;z-index:1;}
-.list-wrap{flex-shrink:0;max-height:37vh;overflow-y:auto;}
+.list-wrap{flex-shrink:0;}
 .list-header{padding:12px 20px 8px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:2;border-bottom:0.5px solid rgba(255,255,255,0.16);}
 body.theme-green  .list-header{background:rgba(215,252,190,0.35);}
 body.theme-aurora .list-header{background:rgba(2,8,16,0.50);}
 body.theme-night  .list-header{background:rgba(3,5,26,0.55);}
 .list-title{font-size:10px;letter-spacing:0.11em;text-transform:uppercase;}
-.trip-list{padding:8px 20px 18px;display:flex;flex-direction:column;gap:7px;}
+#homeFilterBar{padding:8px 20px 2px;scrollbar-width:none;}
+#homeFilterBar::-webkit-scrollbar{display:none;}
+.home-filter-btn{flex-shrink:0;padding:5px 13px;border-radius:20px;border:0.5px solid rgba(255,255,255,0.2);background:rgba(255,255,255,0.07);color:rgba(255,255,255,0.65);font-size:12px;font-family:'Noto Sans KR',sans-serif;cursor:pointer;transition:all .15s;white-space:nowrap;}
+.home-filter-btn.active{background:rgba(255,255,255,0.18);color:#fff;border-color:rgba(255,255,255,0.45);}
+.home-filter-btn[style*='--fc']:not(.active){border-color:var(--fc);}
+.home-filter-btn[style*='--fc'].active{background:var(--fc);border-color:transparent;color:#fff;}
+.home-filter-edit-btn{flex-shrink:0;width:28px;height:28px;border-radius:50%;border:0.5px solid rgba(255,255,255,0.18);background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.45);font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;padding:0;}
+.home-filter-edit-btn:hover{background:rgba(255,255,255,0.14);color:rgba(255,255,255,0.9);}
+.home-filter-chip-edit{flex-shrink:0;display:inline-flex;align-items:center;gap:4px;padding:4px 8px 4px 12px;border-radius:20px;background:var(--fc,rgba(255,255,255,0.12));border:0.5px solid rgba(255,255,255,0.2);font-size:12px;font-family:'Noto Sans KR',sans-serif;white-space:nowrap;}
+.hfc-label{color:#fff;cursor:pointer;opacity:.9;}
+.hfc-label:hover{opacity:1;text-decoration:underline;}
+.hfc-x{color:rgba(255,255,255,0.6);cursor:pointer;font-size:10px;font-weight:700;padding:1px 3px;border-radius:50%;transition:all .12s;line-height:1;}
+.hfc-x:hover{background:rgba(255,80,80,0.4);color:#fff;}
 .trip-row{display:flex;align-items:center;gap:12px;padding:11px 13px;border-radius:14px;cursor:pointer;transition:all .16s;}
 .trip-row:hover{transform:translateX(3px);}
 .trip-thumb{width:40px;height:40px;border-radius:10px;flex-shrink:0;box-shadow:0 2px 8px rgba(0,0,0,0.18);}
@@ -134,10 +147,25 @@ body.theme-night  .leaflet-control-zoom a{background:rgba(10,14,50,0.78)!importa
 .film-strip{display:flex;gap:2px;height:86px;flex-shrink:0;overflow:hidden;}
 .film-frame{flex:1;overflow:hidden;cursor:pointer;transition:flex .28s ease;}
 .film-frame:hover{flex:1.75;}
-.detail-body{padding:22px 20px;}
+.detail-tabs{display:flex;gap:6px;padding:14px 20px 0;overflow-x:auto;scrollbar-width:none;flex-shrink:0;}
+.detail-tabs::-webkit-scrollbar{display:none;}
+.detail-tab{
+  padding:7px 16px;border-radius:20px;border:none;cursor:pointer;
+  font-family:'Noto Sans KR',sans-serif;font-size:12px;white-space:nowrap;
+  transition:all .18s;flex-shrink:0;
+}
+body.theme-green  .detail-tab{background:rgba(255,255,255,0.28);color:rgba(10,52,16,0.65);}
+body.theme-aurora .detail-tab{background:rgba(255,255,255,0.07);color:rgba(160,255,220,0.55);}
+body.theme-night  .detail-tab{background:rgba(255,255,255,0.06);color:rgba(180,190,255,0.55);}
+body.theme-green  .detail-tab.active{background:rgba(30,120,50,0.85);color:#fff;}
+body.theme-aurora .detail-tab.active{background:rgba(28,200,160,0.75);color:#fff;}
+body.theme-night  .detail-tab.active{background:rgba(100,120,255,0.75);color:#fff;}
+
+.detail-body{padding:0 0 0;}
 body.theme-green  .detail-body{background:#f0f7e8;}
 body.theme-aurora .detail-body{background:#06101a;}
 body.theme-night  .detail-body{background:#070a20;}
+#tabTimeline,#tabPhotos,#tabStory,#tabMemo{padding:16px 20px;}
 .pull-q{padding-left:15px;margin-bottom:22px;}
 body.theme-green  .pull-q{border-left:2px solid rgba(30,120,40,0.50);}
 body.theme-aurora .pull-q{border-left:2px solid rgba(40,220,170,0.60);}
@@ -325,10 +353,10 @@ body.theme-night  .editor-meta-input  { color:rgba(208,215,255,0.90); }
 
 /* 블로그 본문 */
 .editor-blog {
-  width:100%; min-height:220px; padding:16px; border-radius:14px;
-  font-family:'Noto Sans KR',system-ui,sans-serif; font-size:15px; line-height:1.85;
+  width:100%; min-height:120px; max-height:180px; padding:14px; border-radius:14px;
+  font-family:'Noto Sans KR',system-ui,sans-serif; font-size:14px; line-height:1.75;
   background:rgba(255,255,255,0.10); border:0.5px solid rgba(255,255,255,0.20);
-  outline:none; resize:none; transition:border-color .15s;
+  outline:none; resize:none; transition:border-color .15s; box-sizing:border-box;
 }
 .editor-blog:focus { border-color:rgba(255,255,255,0.50); }
 body.theme-green  .editor-blog { color:rgba(10,52,16,0.88); background:rgba(255,255,255,0.65); border-color:rgba(180,220,170,0.50); }
@@ -535,12 +563,14 @@ body.theme-night  .pin-add-confirm{background:rgba(110,130,255,0.85);color:#fff;
   width:260px;height:370px;
   position:relative;
   transform-style:preserve-3d;
-  animation:passportOpen 1.4s cubic-bezier(.4,0,.2,1) 1.2s forwards;
+  animation:passportSpin 10s linear 0.3s infinite;
 }
-@keyframes passportOpen{
-  0%{transform:rotateY(0deg);}
-  60%{transform:rotateY(-35deg);}
-  100%{transform:rotateY(-22deg);}
+@keyframes passportSpin{
+  0%   {transform:rotateY(0deg);}
+  25%  {transform:rotateY(-180deg);}
+  50%  {transform:rotateY(-180deg);}
+  75%  {transform:rotateY(-360deg);}
+  100% {transform:rotateY(-360deg);}
 }
 .passport-cover{
   position:absolute;inset:0;
@@ -625,14 +655,16 @@ body.theme-night  .pin-add-confirm{background:rgba(110,130,255,0.85);color:#fff;
 }
 .ticket{
   margin:0 16px;
-  border-radius:16px 16px 0 0;
-  overflow:hidden;
+  border-radius:16px 16px 16px 16px;
+  overflow:visible; /* 뜯기 모션이 밖으로 나가야 함 */
   position:relative;
   box-shadow:0 -8px 40px rgba(0,0,0,0.35);
 }
 .ticket-top{
   padding:22px 22px 16px;
   position:relative;
+  background:#ffffff;
+  border-radius:16px 16px 0 0;
 }
 .ticket-airline{
   font-size:9px;letter-spacing:0.18em;text-transform:uppercase;
@@ -657,82 +689,128 @@ body.theme-night  .pin-add-confirm{background:rgba(110,130,255,0.85);color:#fff;
 /* 점선 tear 라인 */
 .ticket-tear{
   height:32px;position:relative;display:flex;align-items:center;
-  overflow:visible;
+  overflow:visible;background:#f0f0f0;
 }
 .ticket-tear::before,.ticket-tear::after{
   content:'';position:absolute;top:50%;
   width:18px;height:18px;border-radius:50%;
-  background:#020810;transform:translateY(-50%);
+  background:rgba(0,0,0,0.45);transform:translateY(-50%);z-index:2;
 }
 .ticket-tear::before{left:-9px;}
 .ticket-tear::after{right:-9px;}
 .ticket-tear-line{
   flex:1;margin:0 20px;
-  border-top:2px dashed rgba(255,255,255,0.15);
+  border-top:2px dashed rgba(0,0,0,0.18);
 }
 .ticket-tear-label{
   position:absolute;left:50%;transform:translateX(-50%);
   font-size:9px;letter-spacing:0.1em;text-transform:uppercase;
-  opacity:0.35;font-family:'DM Sans',sans-serif;
-  background:inherit;padding:0 8px;
+  color:rgba(0,0,0,0.28);font-family:'DM Sans',sans-serif;
+  background:#f0f0f0;padding:0 8px;white-space:nowrap;
 }
 
 .ticket-stub{
-  padding:16px 22px 20px;
+  padding:14px 22px 18px;
   cursor:pointer;
   position:relative;overflow:hidden;
+  background:#fafafa;
+  border-radius:0 0 16px 16px;
 }
 .ticket-stub-hint{
   font-size:11px;font-family:'Noto Sans KR',sans-serif;
-  opacity:0.55;display:flex;align-items:center;gap:6px;
+  color:rgba(0,0,0,0.38);display:flex;align-items:center;gap:6px;
   justify-content:center;
 }
 .ticket-stub-hint::before{content:'↑';font-size:14px;}
 
-/* 티켓 뜯기 애니메이션 */
-.ticket-tearing .ticket-stub{
-  animation:tearStub 0.55s cubic-bezier(.4,0,1,1) forwards;
-}
+/* 티켓 뜯기 — 천천히 자연스럽게 뜯어지며 날아감 */
 .ticket-tearing .ticket-top{
-  animation:tearTop 0.55s cubic-bezier(.4,0,1,1) forwards;
+  animation:tearTop 1.4s cubic-bezier(.22,.8,.36,1) forwards;
+  transform-origin:left bottom;
+  position:relative;
+  z-index:10;
 }
-@keyframes tearStub{
-  0%{transform:translateY(0);opacity:1;}
-  40%{transform:translateY(6px) rotate(1.5deg);opacity:0.9;}
-  100%{transform:translateY(120px) rotate(4deg);opacity:0;}
+.ticket-tearing .ticket-tear .ticket-tear-line{
+  animation:tearDash 0.5s ease forwards;
 }
 @keyframes tearTop{
-  0%{transform:translateY(0);}
-  100%{transform:translateY(-8px);}
+  0%  {transform:translateY(0) rotate(0deg);opacity:1;}
+  10% {transform:translateY(-4px) rotate(-0.8deg);opacity:1;}
+  30% {transform:translateY(-20px) rotate(-2deg);opacity:1;}
+  55% {transform:translateY(-70px) rotate(-5deg);opacity:1;}
+  80% {transform:translateY(-140px) rotate(-9deg);opacity:0.6;}
+  100%{transform:translateY(-240px) rotate(-14deg);opacity:0;}
+}
+@keyframes tearDash{
+  0%  {opacity:1;}
+  60% {opacity:0.4;}
+  100%{opacity:0;}
 }
 
-/* 테마별 티켓 색상 */
-body.theme-green .ticket-top{background:rgba(20,80,30,0.95);}
-body.theme-green .ticket-city{color:#e8f8ec;}
-body.theme-green .ticket-dest{color:#a8d8b0;}
-body.theme-green .ticket-meta-val{color:#c8ecd0;}
-body.theme-green .ticket-airline{color:#a8d8b0;}
-body.theme-green .ticket-stub{background:rgba(15,65,22,0.95);}
-body.theme-green .ticket-stub-hint{color:#a8d8b0;}
-body.theme-green .ticket-tear{background:rgba(18,72,26,0.95);}
+/* 티켓 흰색 — 모든 테마 공통 */
+.ticket-top{
+  padding:22px 22px 16px;
+  position:relative;
+  background:#ffffff;
+}
+.ticket-airline{
+  font-size:9px;letter-spacing:0.18em;text-transform:uppercase;
+  color:rgba(0,0,0,0.38);margin-bottom:8px;
+  font-family:'DM Sans','Noto Sans KR',sans-serif;
+}
+.ticket-city{font-size:38px;font-weight:400;line-height:1;color:#111;}
+.ticket-arrow{font-size:20px;opacity:0.3;flex:1;text-align:center;color:#111;}
+.ticket-dest{font-size:28px;font-weight:400;line-height:1;color:#444;}
+.ticket-meta-lbl{font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(0,0,0,0.38);}
+.ticket-meta-val{font-size:13px;font-weight:500;color:#222;}
 
-body.theme-aurora .ticket-top{background:rgba(2,20,28,0.96);}
-body.theme-aurora .ticket-city{color:#c8fff0;}
-body.theme-aurora .ticket-dest{color:#70e8c8;}
-body.theme-aurora .ticket-meta-val{color:#a0f0d8;}
-body.theme-aurora .ticket-airline{color:#70e8c8;}
-body.theme-aurora .ticket-stub{background:rgba(1,14,20,0.96);}
-body.theme-aurora .ticket-stub-hint{color:#70e8c8;}
-body.theme-aurora .ticket-tear{background:rgba(2,17,24,0.96);}
+/* 테마 오버라이드 제거 — 티켓은 항상 흰색 */
+body.theme-green .ticket-top,
+body.theme-aurora .ticket-top,
+body.theme-night  .ticket-top{background:#ffffff;}
+body.theme-green .ticket-city,body.theme-aurora .ticket-city,body.theme-night .ticket-city{color:#111;}
+body.theme-green .ticket-dest,body.theme-aurora .ticket-dest,body.theme-night .ticket-dest{color:#444;}
+body.theme-green .ticket-meta-val,body.theme-aurora .ticket-meta-val,body.theme-night .ticket-meta-val{color:#222;}
+body.theme-green .ticket-airline,body.theme-aurora .ticket-airline,body.theme-night .ticket-airline{color:rgba(0,0,0,0.38);}
+body.theme-green .ticket-stub,body.theme-aurora .ticket-stub,body.theme-night .ticket-stub{background:#fafafa;}
+body.theme-green .ticket-stub-hint,body.theme-aurora .ticket-stub-hint,body.theme-night .ticket-stub-hint{color:rgba(0,0,0,0.38);}
+body.theme-green .ticket-tear,body.theme-aurora .ticket-tear,body.theme-night .ticket-tear{background:#f0f0f0;}
 
-body.theme-night .ticket-top{background:rgba(8,10,40,0.97);}
-body.theme-night .ticket-city{color:#dde4ff;}
-body.theme-night .ticket-dest{color:#9090ee;}
-body.theme-night .ticket-meta-val{color:#b8c0ff;}
-body.theme-night .ticket-airline{color:#9090ee;}
-body.theme-night .ticket-stub{background:rgba(5,7,30,0.97);}
-body.theme-night .ticket-stub-hint{color:#9090ee;}
-body.theme-night .ticket-tear{background:rgba(6,8,35,0.97);}
+/* 카테고리 칩 */
+.cat-chips{display:flex;flex-wrap:wrap;gap:5px;padding:6px 12px 4px;overflow-x:auto;scrollbar-width:none;}
+.cat-chips::-webkit-scrollbar{display:none;}
+.cat-chip{
+  padding:3px 10px;border-radius:20px;border:1px solid var(--cat-color,rgba(255,255,255,0.2));
+  background:transparent;font-size:11px;cursor:pointer;font-family:'Noto Sans KR',sans-serif;
+  opacity:0.5;transition:all .15s;color:inherit;white-space:nowrap;
+}
+.cat-chip.active{background:var(--cat-color,rgba(255,255,255,0.2));opacity:1;font-weight:600;}
+
+/* 상세뷰 카테고리 필터 */
+.cat-filter{display:flex;gap:6px;flex-wrap:wrap;padding:0 0 12px;overflow-x:auto;scrollbar-width:none;}
+.cat-filter::-webkit-scrollbar{display:none;}
+.cat-filter-btn{
+  padding:5px 13px;border-radius:20px;border:1px solid rgba(255,255,255,0.18);
+  background:rgba(255,255,255,0.07);font-size:11px;cursor:pointer;
+  font-family:'Noto Sans KR',sans-serif;opacity:0.65;transition:all .15s;color:inherit;white-space:nowrap;
+}
+body.theme-green .cat-filter-btn{border-color:rgba(80,160,60,0.3);color:rgba(10,52,16,0.75);}
+.cat-filter-btn.active{opacity:1;background:rgba(255,255,255,0.18);border-color:rgba(255,255,255,0.40);font-weight:600;}
+body.theme-green .cat-filter-btn.active{background:rgba(30,120,50,0.5);border-color:rgba(80,160,60,0.7);}
+.trip-actions{
+  display:flex;gap:8px;padding:0 20px 16px;flex-shrink:0;
+}
+body.theme-green  .trip-actions-btn{background:rgba(255,255,255,0.65);border:0.5px solid rgba(180,220,170,0.50);color:rgba(10,52,16,0.75);}
+body.theme-aurora .trip-actions-btn{background:rgba(8,30,25,0.88);border:0.5px solid rgba(40,200,160,0.22);color:rgba(160,255,220,0.80);}
+body.theme-night  .trip-actions-btn{background:rgba(12,18,55,0.90);border:0.5px solid rgba(100,120,255,0.18);color:rgba(185,195,255,0.80);}
+.trip-actions-btn{
+  flex:1;padding:10px;border-radius:12px;border:none;cursor:pointer;
+  font-family:'Noto Sans KR',sans-serif;font-size:13px;
+  display:flex;align-items:center;justify-content:center;gap:6px;
+  transition:opacity .15s;
+}
+.trip-actions-btn:hover{opacity:.75;}
+.trip-actions-btn.delete{color:#e05555 !important;}
 
 /* ── 스레드 타임라인 ── */
 .thread-wrap{display:flex;flex-direction:column;}
@@ -854,24 +932,26 @@ body.theme-night  .thread-photo-caption{background:rgba(12,18,55,0.90);color:rgb
           <div style="font-family:monospace;font-size:6.5px;letter-spacing:0.08em;color:rgba(160,185,230,0.30);">A00000000&lt;0TRV0000000000&lt;0000000000000&lt;0</div>
         </div>
       </div>
-      <!-- 안쪽 (펼쳐졌을 때) -->
+      <!-- 안쪽 면 (passport-book이 -180도일 때 보임) -->
       <div class="passport-inner">
-        <div style="font-family:'Fragille','Glamour Actual',Georgia,serif;font-size:28px;color:#1a3a6a;text-align:center;line-height:1.2;">
-          Zephyr
+        <div style="font-size:8px;letter-spacing:0.2em;color:#8a9ab8;font-family:'DM Sans',sans-serif;text-transform:uppercase;margin-bottom:16px;">Republic of Travel</div>
+        <div style="width:56px;height:56px;border-radius:50%;border:1.5px solid rgba(26,58,106,0.25);display:flex;align-items:center;justify-content:center;margin-bottom:12px;">
+          <div style="font-size:26px;filter:drop-shadow(0 1px 4px rgba(26,58,106,0.2));">✈️</div>
         </div>
-        <div style="font-size:8px;letter-spacing:0.2em;color:#8a9ab8;margin-top:4px;font-family:'DM Sans',sans-serif;">
-          TRAVEL PASSPORT
-        </div>
-        <div style="width:50px;height:1px;background:#c8d0e0;margin:12px auto;"></div>
+        <div style="font-family:'Fragille','Glamour Actual',Georgia,serif;font-size:24px;color:#1a3a6a;text-align:center;line-height:1.2;">Zephyr</div>
+        <div style="font-size:8px;letter-spacing:0.2em;color:#8a9ab8;margin-top:4px;font-family:'DM Sans',sans-serif;text-transform:uppercase;">TRAVEL PASSPORT</div>
+        <div style="width:50px;height:1px;background:#c8d0e0;margin:14px auto;"></div>
         <div style="font-size:9px;color:#aab0c0;font-family:'DM Sans',sans-serif;text-align:center;line-height:1.8;letter-spacing:0.05em;">
           이 여권의 소지인이<br>안전하게 여행할 수 있도록<br>협조를 부탁드립니다
+        </div>
+        <div style="position:absolute;bottom:14px;left:0;right:0;padding:0 14px;display:flex;flex-direction:column;gap:3px;">
+          <div style="font-family:monospace;font-size:6px;letter-spacing:0.06em;color:rgba(100,120,160,0.4);">P&lt;TRV&lt;ZEPHYR&lt;&lt;TRAVEL&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;</div>
+          <div style="font-family:monospace;font-size:6px;letter-spacing:0.06em;color:rgba(100,120,160,0.4);">A00000000&lt;0TRV000000000&lt;0000000000&lt;8</div>
         </div>
       </div>
     </div>
   </div>
-  <div style="margin-top:32px;font-family:'DM Sans','Noto Sans KR',sans-serif;font-size:11px;letter-spacing:0.15em;color:rgba(160,185,230,0.45);text-transform:uppercase;">
-    여행을 시작하려면 탭하세요
-  </div>
+  <div style="margin-top:32px;font-family:'DM Sans','Noto Sans KR',sans-serif;font-size:11px;letter-spacing:0.15em;color:rgba(160,185,230,0.45);text-transform:uppercase;">탭하여 시작</div>
 </div>
 
 <!-- 비행기 티켓 오버레이 -->
@@ -927,13 +1007,14 @@ body.theme-night  .thread-photo-caption{background:rgba(12,18,55,0.90);color:rgb
       <button class="add-btn" onclick="openModal()"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button>
     </div>
     <div class="stat-row">
-      <div class="stat-card card"><div class="stat-num t1" id="sC">4</div><div class="stat-lbl t2">방문 국가</div></div>
-      <div class="stat-card card"><div class="stat-num t1" id="sD">19</div><div class="stat-lbl t2">여행 일수</div></div>
-      <div class="stat-card card"><div class="stat-num t1" id="sP">220</div><div class="stat-lbl t2">사진</div></div>
+      <div class="stat-card card"><div class="stat-num t1" id="sC">0</div><div class="stat-lbl t2">방문 국가</div></div>
+      <div class="stat-card card"><div class="stat-num t1" id="sD">0</div><div class="stat-lbl t2">여행 일수</div></div>
+      <div class="stat-card card"><div class="stat-num t1" id="sP">0</div><div class="stat-lbl t2">사진</div></div>
     </div>
-    <div id="map"></div>
+    <div id="map-container"><div id="map"></div></div>
     <div class="list-wrap">
-      <div class="list-header"><span class="list-title t2">여행 목록</span><span class="t2" id="lC">4개</span></div>
+      <div class="list-header"><span class="list-title t2">여행 목록</span><span class="t2" id="lC"></span></div>
+      <div id="homeFilterBar" style="display:flex;flex-wrap:nowrap;overflow-x:auto;gap:6px;padding:0 0 10px;scrollbar-width:none;-webkit-overflow-scrolling:touch;"></div>
       <div class="trip-list" id="tripList"></div>
     </div>
   </div>
@@ -941,6 +1022,11 @@ body.theme-night  .thread-photo-caption{background:rgba(12,18,55,0.90);color:rgb
     <div class="hero">
       <div class="hero-bg" id="heroBg"></div><div class="hero-grad"></div>
       <button class="back-btn" onclick="goBack()"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
+      <!-- 수정/삭제 버튼 -->
+      <div style="position:absolute;top:16px;right:16px;z-index:5;display:flex;gap:8px;">
+        <button onclick="editCurrentTrip()" style="width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,0.16);border:0.5px solid rgba(255,255,255,0.35);cursor:pointer;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(6px);font-size:15px;">✏️</button>
+        <button onclick="deleteCurrentTrip()" style="width:36px;height:36px;border-radius:50%;background:rgba(220,60,60,0.22);border:0.5px solid rgba(255,100,100,0.35);cursor:pointer;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(6px);font-size:15px;">🗑️</button>
+      </div>
       <div class="hero-content">
         <div class="hero-vol" id="heroVol"></div>
         <div id="heroTitle"></div>
@@ -960,11 +1046,28 @@ body.theme-night  .thread-photo-caption{background:rgba(12,18,55,0.90);color:rgb
           </button>
         </div>
       </div>
+      <!-- 카테고리 탭 -->
+      <div class="detail-tabs" id="detailTabs">
+        <button class="detail-tab active" onclick="switchTab('timeline',this)">🗓 일정</button>
+        <button class="detail-tab" onclick="switchTab('photos',this)">📷 사진</button>
+        <button class="detail-tab" onclick="switchTab('story',this)">✍️ 이야기</button>
+        <button class="detail-tab" onclick="switchTab('memo',this)">📝 메모</button>
+      </div>
       <div class="divider"></div>
-      <div class="sec-label t2">일정</div>
-      <div class="tl-wrap"><div class="tl-spine"></div><div class="tl-days" id="dTL"></div></div>
-      <div class="photo-grid" id="dPG"></div>
-      <div class="memo-sec" id="dM"></div>
+      <!-- 탭 콘텐츠 -->
+      <div id="tabTimeline">
+        <div class="cat-filter" id="catFilter"></div>
+        <div class="tl-wrap"><div class="tl-spine"></div><div class="tl-days" id="dTL"></div></div>
+      </div>
+      <div id="tabPhotos" style="display:none;">
+        <div class="photo-grid" id="dPG"></div>
+      </div>
+      <div id="tabStory" style="display:none;">
+        <div id="dStory" style="font-family:'DM Sans','Noto Sans KR',sans-serif;font-size:14px;line-height:1.85;white-space:pre-wrap;padding:4px 0;"></div>
+      </div>
+      <div id="tabMemo" style="display:none;">
+        <div class="memo-sec" id="dM"></div>
+      </div>
       <div class="detail-spacer"></div>
     </div>
   </div>
@@ -998,6 +1101,9 @@ body.theme-night  .thread-photo-caption{background:rgba(12,18,55,0.90);color:rgb
     </button>
     <button class="ap-btn" onclick="openGlobe();toggleAssist();">
       <span class="ap-btn-icon">🌍</span> 지구본 보기
+    </button>
+    <button class="ap-btn" onclick="openMagnet();toggleAssist();">
+      <span class="ap-btn-icon">🧲</span> 마그넷 보드
     </button>
     <button class="ap-btn" onclick="openPinSettings();toggleAssist();">
       <span class="ap-btn-icon" id="currentPinIcon">📍</span> 핀 아이콘 변경
@@ -1042,8 +1148,36 @@ body.theme-night  .thread-photo-caption{background:rgba(12,18,55,0.90);color:rgb
 
     <!-- 기본 정보 -->
     <div class="editor-meta-row">
-      <input class="editor-meta-input" id="inCityEn" placeholder="영문 (예: Bangkok)" style="flex:1.2;">
-      <input class="editor-meta-input" id="inDate" placeholder="날짜 (예: 2025.03 · 4박 5일)" style="flex:1.5;">
+      <input class="editor-meta-input" id="inCityEn" placeholder="영문 (예: Bangkok)" style="flex:1;">
+    </div>
+    <!-- 날짜 스마트 입력 -->
+    <div style="margin-bottom:14px;position:relative;">
+      <div style="display:flex;gap:7px;align-items:center;">
+        <div style="position:relative;flex:1;">
+          <span style="position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:14px;pointer-events:none;">📅</span>
+          <input class="editor-meta-input" id="inDateShort" placeholder="날짜 입력 (예: 260315, 2026-03-15)" 
+            style="width:100%;box-sizing:border-box;padding-left:34px;" 
+            oninput="syncDateFromShort()" autocomplete="off">
+        </div>
+        <button type="button" onclick="toggleDatePopup()" style="flex-shrink:0;width:38px;height:38px;border-radius:10px;border:0.5px solid rgba(255,255,255,0.22);background:rgba(255,255,255,0.10);color:#fff;font-size:17px;cursor:pointer;display:flex;align-items:center;justify-content:center;">🗓</button>
+      </div>
+      <div id="inDateDisplay" style="font-size:11px;color:rgba(255,255,255,0.45);margin-top:4px;padding:0 4px;font-family:'Noto Sans KR',sans-serif;min-height:16px;"></div>
+      <!-- 커스텀 달력 팝업 -->
+      <div id="datePop" style="display:none;position:absolute;top:calc(100% + 4px);left:0;right:0;z-index:300;background:rgba(24,26,38,0.97);border:0.5px solid rgba(255,255,255,0.18);border-radius:14px;padding:14px;backdrop-filter:blur(16px);box-shadow:0 8px 30px rgba(0,0,0,0.5);">
+        <div style="display:flex;gap:8px;margin-bottom:12px;">
+          <select id="dpYear" onchange="applyDatePop()" style="flex:1;background:rgba(255,255,255,0.08);border:0.5px solid rgba(255,255,255,0.18);border-radius:8px;color:#fff;padding:7px 10px;font-size:13px;font-family:'Noto Sans KR',sans-serif;cursor:pointer;"></select>
+          <select id="dpMonth" onchange="applyDatePop()" style="flex:1;background:rgba(255,255,255,0.08);border:0.5px solid rgba(255,255,255,0.18);border-radius:8px;color:#fff;padding:7px 10px;font-size:13px;font-family:'Noto Sans KR',sans-serif;cursor:pointer;"></select>
+          <select id="dpDay" onchange="applyDatePop()" style="flex:1;background:rgba(255,255,255,0.08);border:0.5px solid rgba(255,255,255,0.18);border-radius:8px;color:#fff;padding:7px 10px;font-size:13px;font-family:'Noto Sans KR',sans-serif;cursor:pointer;"></select>
+        </div>
+        <button type="button" onclick="confirmDatePop()" style="width:100%;padding:9px;background:rgba(255,255,255,0.15);border:0.5px solid rgba(255,255,255,0.25);border-radius:10px;color:#fff;font-size:13px;font-family:'Noto Sans KR',sans-serif;cursor:pointer;letter-spacing:0.02em;">✓ 확인</button>
+      </div>
+    </div>
+    <input type="hidden" id="inDate">
+
+    <!-- 여행 태그 -->
+    <div style="margin-bottom:14px;">
+      <div style="font-size:11px;color:rgba(255,255,255,0.45);margin-bottom:7px;padding:0 2px;font-family:'Noto Sans KR',sans-serif;letter-spacing:0.04em;">🏷 여행 태그</div>
+      <div id="tripTagChips" style="display:flex;flex-wrap:wrap;gap:6px;"></div>
     </div>
 
     <!-- 블로그 본문 -->
@@ -1087,7 +1221,26 @@ body.theme-night  .thread-photo-caption{background:rgba(12,18,55,0.90);color:rgb
   <div style="position:absolute;bottom:24px;left:50%;transform:translateX(-50%);font-family:'Noto Sans KR',sans-serif;font-size:10px;color:rgba(255,255,255,0.28);letter-spacing:0.08em;">드래그로 회전 • 핀치로 줌</div>
 </div>
 
-<!-- 핀 아이콘 설정 -->
+<!-- 마그넷 보드 오버레이 -->
+<div id="magnetOverlay" style="display:none;position:fixed;inset:0;z-index:600;flex-direction:column;">
+  <!-- 코르크 보드 배경 -->
+  <div style="position:absolute;inset:0;
+    background:
+      repeating-linear-gradient(0deg,   transparent, transparent 3px, rgba(0,0,0,0.03) 3px, rgba(0,0,0,0.03) 4px),
+      repeating-linear-gradient(90deg,  transparent, transparent 3px, rgba(0,0,0,0.03) 3px, rgba(0,0,0,0.03) 4px),
+      linear-gradient(160deg,#c8894a,#b87a3e,#c8914f,#aa6f32,#bf8540);
+    "></div>
+  <!-- 헤더 -->
+  <div style="position:relative;z-index:10;display:flex;align-items:center;justify-content:space-between;padding:18px 20px 0;">
+    <div style="font-family:'Noto Sans KR',sans-serif;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.55);">🧲 여행 마그넷</div>
+    <div onclick="closeMagnet()" style="width:34px;height:34px;border-radius:50%;background:rgba(0,0,0,0.22);border:0.5px solid rgba(255,255,255,0.28);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:16px;color:#fff;">✕</div>
+  </div>
+  <!-- 보드 영역 -->
+  <div id="magnetBoard" style="position:relative;flex:1;overflow:hidden;margin:14px 0 0;"></div>
+  <div style="position:relative;z-index:10;text-align:center;padding:10px 0 20px;font-family:'Noto Sans KR',sans-serif;font-size:10px;color:rgba(255,255,255,0.35);letter-spacing:0.08em;">드래그로 자유롭게 이동</div>
+</div>
+
+
 <div class="pin-settings" id="pinSettings">
   <div class="pin-settings-header">
     <div class="t1" style="font-size:16px;font-weight:500;">📍 핀 아이콘 변경</div>
@@ -1134,8 +1287,157 @@ body.theme-night  .thread-photo-caption{background:rgba(12,18,55,0.90);color:rgb
 <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.min.js"></script>
 <script>
 const GRADS=['linear-gradient(160deg,#2a2a2a,#111)','linear-gradient(160deg,#3a2820,#1a0e08)','linear-gradient(160deg,#1a2a3a,#0a1420)','linear-gradient(160deg,#1e2a1e,#0a140a)','linear-gradient(160deg,#2a1e2a,#140a14)','linear-gradient(160deg,#2a241a,#14100a)'];
+// ── 사용자 정의 카테고리 시스템 ──────────────────────────────────
+const DEFAULT_CATEGORIES = [
+  {key:'leisure', label:'🌴 휴양',    color:'rgba(80,200,160,0.50)'},
+  {key:'food',    label:'🍜 미식',    color:'rgba(255,160,60,0.55)'},
+  {key:'culture', label:'🏛 문화',    color:'rgba(180,120,255,0.50)'},
+  {key:'nature',  label:'🏔 자연',    color:'rgba(80,200,80,0.50)'},
+  {key:'city',    label:'🌆 도시',    color:'rgba(80,160,255,0.50)'},
+  {key:'adventure',label:'🧗 모험',   color:'rgba(255,100,100,0.50)'},
+  {key:'work',    label:'💼 출장',    color:'rgba(200,180,100,0.50)'},
+];
+const CAT_COLORS = [
+  'rgba(80,200,160,0.50)','rgba(255,160,60,0.55)','rgba(180,120,255,0.50)',
+  'rgba(80,200,80,0.50)','rgba(80,160,255,0.50)','rgba(255,100,100,0.50)',
+  'rgba(200,180,100,0.50)','rgba(255,120,180,0.50)','rgba(120,200,255,0.50)',
+];
+let userCategories = [];
+function loadCategories(){
+  try{ const s=localStorage.getItem('zephyr_categories'); userCategories=s?JSON.parse(s):[...DEFAULT_CATEGORIES]; }
+  catch(e){ userCategories=[...DEFAULT_CATEGORIES]; }
+}
+function saveCategories(){ localStorage.setItem('zephyr_categories',JSON.stringify(userCategories)); }
+loadCategories();
+
+function renderTripTagChips(selTag){
+  const el = document.getElementById('tripTagChips');
+  if(!el) return;
+  const chips = [{key:'none',label:'없음',color:'rgba(120,120,130,0.35)'},...userCategories];
+  el.innerHTML = chips.map(t=>`<button type="button" class="cat-chip${t.key===(selTag||'none')?' active':''}" data-tag="${t.key}" onclick="selectTripTag(this)" style="--cat-color:${t.color};font-size:12px;">${t.label}</button>`).join('');
+}
+function selectTripTag(btn){
+  document.querySelectorAll('#tripTagChips .cat-chip').forEach(c=>c.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+// ── (카테고리 관리는 홈 필터 바에서 인라인으로 처리) ──
+
+// ── 홈 카테고리 필터 ──
+window._activeFilter = 'all';
+window._filterEditMode = false;
+
+function renderHomeFilter(){
+  const el=document.getElementById('homeFilterBar'); if(!el) return;
+  const em = window._filterEditMode;
+  let html = '';
+
+  // 전체글 칩
+  html += `<button class="home-filter-btn${window._activeFilter==='all'?' active':''}" onclick="${em?'':'setHomeFilter(\'all\')'}" style="${em?'opacity:.5;cursor:default;':''}">전체글</button>`;
+
+  // 카테고리 칩
+  userCategories.forEach((c,i)=>{
+    if(em){
+      // 편집 모드: 칩 탭=이름수정, ✕=삭제
+      html += `<span class="home-filter-chip-edit" style="--fc:${c.color};">
+        <span class="hfc-label" onclick="inlineEditCat(${i})">${c.label}</span>
+        <span class="hfc-x" onclick="inlineDeleteCat(${i})">✕</span>
+      </span>`;
+    } else {
+      html += `<button class="home-filter-btn${window._activeFilter===c.key?' active':''}" onclick="setHomeFilter('${c.key}')" style="--fc:${c.color};">${c.label}</button>`;
+    }
+  });
+
+  if(em){
+    // + 추가 버튼
+    html += `<button class="home-filter-btn" id="filterAddBtn" onclick="showFilterAddInput()" style="border-style:dashed;opacity:.8;">+ 추가</button>`;
+    // 인라인 입력창 (기본 숨김)
+    html += `<span id="filterAddWrap" style="display:none;flex-shrink:0;display:none;align-items:center;gap:4px;">
+      <input id="filterAddInp" type="text" placeholder="카테고리 이름" maxlength="20"
+        style="width:110px;background:rgba(255,255,255,0.1);border:0.5px solid rgba(255,255,255,0.3);border-radius:20px;color:#fff;padding:4px 12px;font-size:12px;font-family:'Noto Sans KR',sans-serif;outline:none;"
+        onkeydown="if(event.key==='Enter')confirmFilterAdd()">
+      <button onclick="confirmFilterAdd()" style="flex-shrink:0;padding:4px 10px;border-radius:20px;background:rgba(255,255,255,0.18);border:0.5px solid rgba(255,255,255,0.3);color:#fff;font-size:12px;cursor:pointer;font-family:'Noto Sans KR',sans-serif;">✓</button>
+    </span>`;
+    // 완료 버튼
+    html += `<button class="home-filter-btn" onclick="toggleFilterEditMode()" style="background:rgba(255,255,255,0.18);color:#fff;border-color:rgba(255,255,255,0.4);flex-shrink:0;">완료</button>`;
+  } else {
+    // 편집 모드 진입 버튼
+    html += `<button class="home-filter-edit-btn" onclick="toggleFilterEditMode()" title="카테고리 편집">✎</button>`;
+  }
+
+  el.innerHTML = html;
+
+  // 스크롤을 끝으로 (편집 모드 전환 시)
+  if(em) setTimeout(()=>{ el.scrollLeft = 0; }, 10);
+}
+
+function toggleFilterEditMode(){
+  window._filterEditMode = !window._filterEditMode;
+  renderHomeFilter();
+}
+
+function setHomeFilter(key){
+  window._activeFilter=key;
+  renderHomeFilter();
+  renderList();
+}
+
+function inlineEditCat(idx){
+  const c = userCategories[idx];
+  const newLabel = prompt('카테고리 이름 수정:', c.label);
+  if(newLabel===null) return;
+  const trimmed = newLabel.trim();
+  if(!trimmed){ alert('이름을 입력해주세요.'); return; }
+  userCategories[idx] = {...c, label:trimmed};
+  saveCategories(); renderHomeFilter();
+}
+
+function inlineDeleteCat(idx){
+  if(!confirm(`"${userCategories[idx].label}" 삭제할까요?`)) return;
+  const deletedKey = userCategories[idx].key;
+  userCategories.splice(idx,1);
+  if(window._activeFilter === deletedKey) window._activeFilter = 'all';
+  saveCategories(); renderHomeFilter(); renderList();
+}
+
+function showFilterAddInput(){
+  const btn = document.getElementById('filterAddBtn');
+  const wrap = document.getElementById('filterAddWrap');
+  if(btn) btn.style.display='none';
+  if(wrap){ wrap.style.display='flex'; }
+  setTimeout(()=>{ const inp=document.getElementById('filterAddInp'); if(inp) inp.focus(); }, 50);
+}
+
+function confirmFilterAdd(){
+  const inp = document.getElementById('filterAddInp');
+  if(!inp) return;
+  const label = inp.value.trim();
+  if(!label){ inp.focus(); return; }
+  const key = 'cat_'+Date.now();
+  const color = CAT_COLORS[userCategories.length % CAT_COLORS.length];
+  userCategories.push({key,label,color});
+  saveCategories(); renderHomeFilter(); renderList();
+  // 렌더 후 새 입력창 다시 열기 (연속 추가 편의)
+  // 그냥 닫힌 채로 두기
+}
 const FC=[[['#4AAFA0','#1A6B8A'],['#E8A87C','#C4714A'],['#7BA8C4','#4A7A9A'],['#b8d0c0','#88a898']],[['#c8b8a8','#988070'],['#d8c8b8','#a89080'],['#b8a898','#887870'],['#c8d0b8','#98a888']],[['#c0a8c8','#907898'],['#d0b8d0','#a088a0'],['#b8a8c0','#887890'],['#c8b8d0','#9888a8']],[['#6B9E5A','#2D5A1E'],['#8ab878','#5a8848'],['#a8c898','#789868'],['#c8d8b8','#98a888']]];
-const trips=[];
+let trips=[];
+// ── localStorage 저장/로드 ──
+function saveTripData(){
+  try{ localStorage.setItem('zephyr_trips', JSON.stringify(trips.map(t=>{
+    // base64 사진은 저장 용량이 크므로 저장
+    return t;
+  }))); } catch(e){ console.warn('저장 실패:',e); }
+}
+function loadTripData(){
+  try{
+    const s=localStorage.getItem('zephyr_trips');
+    if(s){ const arr=JSON.parse(s); arr.forEach(t=>trips.push(t)); }
+  } catch(e){ console.warn('로드 실패:',e); }
+}
+function renderMarkers(){
+  if(window._mg){ window._mg.clearLayers(); trips.forEach(addMarker); }
+}
 
 // ── 핀 아이콘 설정 ──
 window._pinIcon = '📍';
@@ -1430,6 +1732,616 @@ function closeGlobe(){
   }
 }
 
+// ── 마그넷 보드 ──
+
+function getMagnetSVG(trip, idx) {
+  const k = ((trip.city||'')+(trip.country||'')).toLowerCase();
+  const lbl = (trip.city || trip.country || '여행').toUpperCase();
+  const uid = String(trip.id||idx).replace(/[^a-zA-Z0-9]/g,'_');
+  const dt = trip.date ? trip.date.slice(0,7) : '';
+  if (/제주|jeju/.test(k))               return svgJeju(uid,lbl);
+  if (/파리|paris/.test(k))              return svgParis(uid,lbl);
+  if (/도쿄|tokyo/.test(k))              return svgTokyo(uid,lbl);
+  if (/교토|kyoto/.test(k))              return svgKyoto(uid,lbl);
+  if (/오사카|osaka/.test(k))            return svgOsaka(uid,lbl);
+  if (/방콕|bangkok/.test(k))            return svgBangkok(uid,lbl);
+  if (/로마|rome|roma/.test(k))          return svgRome(uid,lbl);
+  if (/런던|london/.test(k))             return svgLondon(uid,lbl);
+  if (/뉴욕|new.?york/.test(k))          return svgNewYork(uid,lbl);
+  if (/싱가포르|singapore/.test(k))      return svgSingapore(uid,lbl);
+  if (/산토리니|santorini|그리스|greece/.test(k)) return svgSantorini(uid,lbl);
+  if (/상하이|shanghai/.test(k))         return svgShanghai(uid,lbl);
+  if (/두바이|dubai/.test(k))            return svgDubai(uid,lbl);
+  if (/바르셀로나|barcelona/.test(k))    return svgBarcelona(uid,lbl);
+  if (/서울|seoul/.test(k))              return svgSeoul(uid,lbl);
+  if (/부산|busan/.test(k))              return svgBusan(uid,lbl);
+  if (/홍콩|hong.?kong/.test(k))         return svgHongKong(uid,lbl);
+  if (/베니스|venice|venezia/.test(k))   return svgVenice(uid,lbl);
+  if (/시드니|sydney/.test(k))           return svgSydney(uid,lbl);
+  if (/일본|japan/.test(k))              return svgTokyo(uid,lbl);
+  if (/태국|thailand/.test(k))           return svgBangkok(uid,lbl);
+  if (/이탈리아|italy/.test(k))          return svgRome(uid,lbl);
+  if (/프랑스|france/.test(k))           return svgParis(uid,lbl);
+  if (/영국|uk|britain/.test(k))         return svgLondon(uid,lbl);
+  if (/미국|usa|america/.test(k))        return svgNewYork(uid,lbl);
+  if (/중국|china/.test(k))              return svgShanghai(uid,lbl);
+  return svgDefault(uid,lbl,idx);
+}
+
+function svgJeju(uid,lbl){return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 90 108" style="display:block;width:90px;height:auto">
+<defs><clipPath id="c${uid}"><ellipse cx="45" cy="54" rx="44" ry="52"/></clipPath></defs>
+<g clip-path="url(#c${uid})">
+<rect width="90" height="108" fill="#6ab8d4"/>
+<rect y="68" width="90" height="40" fill="#1a7ac0"/>
+<ellipse cx="22" cy="70" rx="28" ry="12" fill="#3a8a30"/>
+<ellipse cx="68" cy="73" rx="24" ry="10" fill="#2e7a28"/>
+<polygon points="45,22 18,70 72,70" fill="#4a8a40"/>
+<polygon points="45,22 38,38 52,38" fill="rgba(255,255,255,0.78)"/>
+<rect x="42" y="55" width="6" height="15" rx="3" fill="#6a5a48"/>
+<ellipse cx="45" cy="54" rx="7" ry="8" fill="#6a5a48"/>
+<circle cx="42.5" cy="52.5" r="1.2" fill="#e0b060"/>
+<circle cx="47.5" cy="52.5" r="1.2" fill="#e0b060"/>
+<ellipse cx="45" cy="47" rx="8" ry="3" fill="#5a4a38"/>
+<circle cx="72" cy="50" r="7" fill="#ff8800"/>
+<circle cx="72" cy="50" r="3.5" fill="#ffbb00"/>
+<line x1="72" y1="43" x2="70" y2="37" stroke="#3a7a30" stroke-width="1.5"/>
+<circle cx="69" cy="36" r="2" fill="#2a6a20"/>
+<ellipse cx="45" cy="96" rx="28" ry="9" fill="#e05500"/>
+<text x="45" y="99.5" text-anchor="middle" fill="#fff" font-size="9" font-family="Arial Black,sans-serif" font-weight="900" letter-spacing="1.5">JEJU</text>
+</g>
+<ellipse cx="45" cy="54" rx="44" ry="52" fill="none" stroke="#ff8800" stroke-width="2.5"/>
+</svg>`;}
+
+function svgParis(uid,lbl){return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 90 112" style="display:block;width:90px;height:auto">
+<defs><clipPath id="c${uid}"><path d="M2,24 Q45,-6 88,24 L88,112 L2,112 Z"/></clipPath></defs>
+<g clip-path="url(#c${uid})">
+<rect width="90" height="112" fill="#7a9fcc"/>
+<rect y="76" width="90" height="36" fill="#4a8040"/>
+<ellipse cx="18" cy="28" rx="12" ry="6" fill="rgba(255,255,255,0.6)"/>
+<ellipse cx="72" cy="20" rx="10" ry="5" fill="rgba(255,255,255,0.5)"/>
+<polygon points="45,10 32,76 40,76" fill="#4a5e78"/>
+<polygon points="45,10 58,76 50,76" fill="#3e5270"/>
+<rect x="33.5" y="62" width="23" height="3" rx="1.5" fill="#2e4260"/>
+<rect x="37" y="50" width="16" height="2.5" rx="1" fill="#2e4260"/>
+<rect x="41" y="38" width="8" height="2" rx="1" fill="#2e4260"/>
+<line x1="45" y1="10" x2="45" y2="5" stroke="#4a5e78" stroke-width="2"/>
+<ellipse cx="20" cy="78" rx="8" ry="6" fill="#3a6e30"/>
+<ellipse cx="70" cy="78" rx="8" ry="6" fill="#3a6e30"/>
+<rect y="90" width="90" height="22" fill="#1a237e"/>
+<text x="45" y="105" text-anchor="middle" fill="#ffd700" font-size="10" font-family="Arial Black,sans-serif" font-weight="900" letter-spacing="2">PARIS</text>
+</g>
+<path d="M2,24 Q45,-6 88,24 L88,112 L2,112 Z" fill="none" stroke="#c8a040" stroke-width="2.5"/>
+</svg>`;}
+
+function svgTokyo(uid,lbl){return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 90 90" style="display:block;width:90px;height:auto">
+<defs><clipPath id="c${uid}"><circle cx="45" cy="45" r="43"/></clipPath></defs>
+<g clip-path="url(#c${uid})">
+<rect width="90" height="90" fill="#f5cce0"/>
+<rect y="60" width="90" height="30" fill="#3a5a30"/>
+<polygon points="45,14 18,62 72,62" fill="#8a9ab0"/>
+<polygon points="45,14 38,30 52,30" fill="rgba(255,255,255,0.85)"/>
+<polygon points="72,62 68,62 70,18" fill="#e83030"/>
+<polygon points="72,62 74,62 72,18" fill="#cc2020"/>
+<rect x="68.5" y="30" width="5" height="2" fill="#fff"/>
+<rect x="68.5" y="42" width="5" height="2" fill="#fff"/>
+<rect x="69" y="52" width="4" height="1.5" fill="#fff"/>
+<line x1="71" y1="18" x2="71" y2="12" stroke="#e83030" stroke-width="1.5"/>
+<circle cx="20" cy="30" r="5" fill="#f890b0" opacity="0.75"/>
+<circle cx="30" cy="18" r="4" fill="#f890b0" opacity="0.6"/>
+<circle cx="12" cy="22" r="4" fill="#f4a0c0" opacity="0.65"/>
+<rect y="68" width="90" height="22" fill="#cc0000"/>
+<text x="45" y="83" text-anchor="middle" fill="#fff" font-size="9.5" font-family="Arial Black,sans-serif" font-weight="900" letter-spacing="1.5">TOKYO</text>
+</g>
+<circle cx="45" cy="45" r="43" fill="none" stroke="#cc0000" stroke-width="2.5"/>
+</svg>`;}
+
+function svgKyoto(uid,lbl){return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 90 112" style="display:block;width:90px;height:auto">
+<defs><clipPath id="c${uid}"><path d="M2,24 Q45,-6 88,24 L88,112 L2,112 Z"/></clipPath></defs>
+<g clip-path="url(#c${uid})">
+<rect width="90" height="112" fill="#e07030"/>
+<rect y="76" width="90" height="36" fill="#2a5a1e"/>
+<rect x="28" y="40" width="8" height="40" rx="4" fill="#cc2200"/>
+<rect x="54" y="40" width="8" height="40" rx="4" fill="#cc2200"/>
+<path d="M22,38 Q45,22 68,38 L68,46 Q45,30 22,46 Z" fill="#cc2200"/>
+<rect x="26" y="50" width="38" height="6" rx="3" fill="#cc2200"/>
+<rect x="28" y="78" width="8" height="4" rx="1" fill="#888"/>
+<rect x="54" y="78" width="8" height="4" rx="1" fill="#888"/>
+<circle cx="15" cy="50" r="5" fill="#dd6020" opacity="0.8"/>
+<circle cx="20" cy="36" r="4" fill="#ee8030" opacity="0.65"/>
+<circle cx="75" cy="46" r="5" fill="#dd6020" opacity="0.75"/>
+<circle cx="70" cy="33" r="4" fill="#ee8030" opacity="0.65"/>
+<circle cx="12" cy="38" r="3" fill="#ffaa50" opacity="0.6"/>
+<circle cx="78" cy="34" r="3" fill="#ffaa50" opacity="0.6"/>
+<rect y="90" width="90" height="22" fill="#880000"/>
+<text x="45" y="105" text-anchor="middle" fill="#ffd080" font-size="9.5" font-family="Arial Black,sans-serif" font-weight="900" letter-spacing="1.5">KYOTO</text>
+</g>
+<path d="M2,24 Q45,-6 88,24 L88,112 L2,112 Z" fill="none" stroke="#cc4400" stroke-width="2.5"/>
+</svg>`;}
+
+function svgOsaka(uid,lbl){return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 90 110" style="display:block;width:90px;height:auto">
+<defs><clipPath id="c${uid}"><rect width="90" height="110" rx="10"/></clipPath></defs>
+<g clip-path="url(#c${uid})">
+<rect width="90" height="110" fill="#6a9ad4"/>
+<rect y="74" width="90" height="36" fill="#3a6a30"/>
+<circle cx="12" cy="28" r="8" fill="#f8b0c8" opacity="0.75"/>
+<circle cx="22" cy="18" r="6" fill="#f4a0c0" opacity="0.65"/>
+<circle cx="78" cy="22" r="7" fill="#f8b0c8" opacity="0.7"/>
+<rect x="24" y="66" width="42" height="12" rx="2" fill="#8a9060"/>
+<rect x="28" y="60" width="34" height="10" rx="2" fill="#9aaa70"/>
+<rect x="30" y="52" width="30" height="12" rx="1" fill="#e8e4d0"/>
+<polygon points="27,52 63,52 66,47 24,47" fill="#cc3838"/>
+<rect x="34" y="38" width="22" height="12" rx="1" fill="#e8e4d0"/>
+<polygon points="31,38 59,38 62,33 28,33" fill="#cc3838"/>
+<rect x="37" y="24" width="16" height="12" rx="1" fill="#e8e4d0"/>
+<polygon points="34,24 56,24 58,19 32,19" fill="#cc3838"/>
+<polygon points="42,19 48,19 45,12" fill="#e8c020"/>
+<rect x="36" y="56" width="4" height="5" rx="1" fill="#8ab0d0"/>
+<rect x="43" y="56" width="4" height="5" rx="1" fill="#8ab0d0"/>
+<rect x="50" y="56" width="4" height="5" rx="1" fill="#8ab0d0"/>
+<rect y="90" width="90" height="20" fill="#cc3838"/>
+<text x="45" y="104" text-anchor="middle" fill="#fff" font-size="9.5" font-family="Arial Black,sans-serif" font-weight="900" letter-spacing="1.5">OSAKA</text>
+</g>
+<rect width="90" height="110" rx="10" fill="none" stroke="#cc3838" stroke-width="2.5"/>
+</svg>`;}
+
+function svgBangkok(uid,lbl){return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 90 112" style="display:block;width:90px;height:auto">
+<defs><clipPath id="c${uid}"><path d="M4,4 L86,4 L86,90 L45,112 L4,90 Z"/></clipPath></defs>
+<g clip-path="url(#c${uid})">
+<rect width="90" height="112" fill="#3a6aaa"/>
+<rect y="72" width="90" height="40" fill="#4a8040"/>
+<polygon points="45,10 40,70 50,70" fill="#e8c060"/>
+<rect x="37" y="52" width="16" height="5" rx="2.5" fill="#e0b050"/>
+<rect x="39" y="44" width="12" height="4" rx="2" fill="#e8c060"/>
+<rect x="41" y="37" width="8" height="4" rx="2" fill="#f0d070"/>
+<rect x="43" y="30" width="4" height="5" rx="2" fill="#f8e080"/>
+<polygon points="25,34 21,70 29,70" fill="#d8b050"/>
+<rect x="19" y="55" width="12" height="4" rx="2" fill="#c8a040"/>
+<polygon points="65,34 61,70 69,70" fill="#d8b050"/>
+<rect x="59" y="55" width="12" height="4" rx="2" fill="#c8a040"/>
+<rect y="72" width="90" height="8" fill="#2a5a90" opacity="0.4"/>
+<rect y="90" width="90" height="22" fill="#8a1a00"/>
+<text x="45" y="103.5" text-anchor="middle" fill="#ffd060" font-size="8" font-family="Arial Black,sans-serif" font-weight="900" letter-spacing="1">BANGKOK</text>
+</g>
+<path d="M4,4 L86,4 L86,90 L45,112 L4,90 Z" fill="none" stroke="#e8a000" stroke-width="2.5"/>
+</svg>`;}
+
+function svgRome(uid,lbl){return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 90 108" style="display:block;width:90px;height:auto">
+<defs><clipPath id="c${uid}"><ellipse cx="45" cy="54" rx="44" ry="52"/></clipPath></defs>
+<g clip-path="url(#c${uid})">
+<rect width="90" height="108" fill="#e8a060"/>
+<rect y="74" width="90" height="34" fill="#a04010"/>
+<circle cx="72" cy="22" r="12" fill="#f8c050" opacity="0.8"/>
+<ellipse cx="20" cy="28" rx="11" ry="5" fill="rgba(255,255,255,0.55)"/>
+<ellipse cx="45" cy="60" rx="36" ry="20" fill="#c87830" stroke="#8a4a10" stroke-width="1.5"/>
+<path d="M16,68 L16,60 A4,5 0 0,1 24,60 L24,68 Z" fill="#7a3810"/>
+<path d="M27,68 L27,60 A4,5 0 0,1 35,60 L35,68 Z" fill="#7a3810"/>
+<path d="M38,68 L38,60 A4,5 0 0,1 46,60 L46,68 Z" fill="#7a3810"/>
+<path d="M49,68 L49,60 A4,5 0 0,1 57,60 L57,68 Z" fill="#7a3810"/>
+<path d="M60,68 L60,60 A4,5 0 0,1 68,60 L68,68 Z" fill="#7a3810"/>
+<path d="M20,59 L20,53 A3,4 0 0,1 27,53 L27,59 Z" fill="#7a3810"/>
+<path d="M31,59 L31,53 A3,4 0 0,1 38,53 L38,59 Z" fill="#7a3810"/>
+<path d="M42,59 L42,53 A3,4 0 0,1 49,53 L49,59 Z" fill="#7a3810"/>
+<path d="M53,59 L53,53 A3,4 0 0,1 60,53 L60,59 Z" fill="#7a3810"/>
+<ellipse cx="45" cy="96" rx="28" ry="9" fill="#8a1a00"/>
+<text x="45" y="99.5" text-anchor="middle" fill="#ffd060" font-size="9.5" font-family="Arial Black,sans-serif" font-weight="900" letter-spacing="2">ROMA</text>
+</g>
+<ellipse cx="45" cy="54" rx="44" ry="52" fill="none" stroke="#c04010" stroke-width="2.5"/>
+</svg>`;}
+
+function svgLondon(uid,lbl){return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 90 110" style="display:block;width:90px;height:auto">
+<defs><clipPath id="c${uid}"><rect width="90" height="110" rx="10"/></clipPath></defs>
+<g clip-path="url(#c${uid})">
+<rect width="90" height="110" fill="#8a9ab0"/>
+<rect y="72" width="90" height="38" fill="#5a6a40"/>
+<rect x="36" y="28" width="18" height="50" rx="2" fill="#9aaa78"/>
+<rect x="33" y="46" width="24" height="24" rx="2" fill="#aabb88"/>
+<circle cx="45" cy="56" r="9" fill="#f5e8c0" stroke="#7a8a58" stroke-width="1.5"/>
+<line x1="45" y1="50" x2="45" y2="56" stroke="#333" stroke-width="1.5"/>
+<line x1="45" y1="56" x2="51" y2="60" stroke="#333" stroke-width="1.5"/>
+<polygon points="36,28 54,28 45,10" fill="#8a9a68"/>
+<polygon points="41,10 49,10 45,3" fill="#8a9a68"/>
+<rect x="12" y="76" width="36" height="16" rx="3" fill="#cc0000"/>
+<rect x="15" y="70" width="30" height="8" rx="2" fill="#cc0000"/>
+<rect x="17" y="72" width="6" height="5" rx="1" fill="#e8f0ff"/>
+<rect x="26" y="72" width="6" height="5" rx="1" fill="#e8f0ff"/>
+<rect x="35" y="72" width="5" height="5" rx="1" fill="#e8f0ff"/>
+<rect x="16" y="79" width="6" height="5" rx="1" fill="#e8f0ff"/>
+<rect x="25" y="79" width="6" height="5" rx="1" fill="#e8f0ff"/>
+<circle cx="20" cy="92" r="4" fill="#222"/>
+<circle cx="40" cy="92" r="4" fill="#222"/>
+<rect y="90" width="90" height="20" fill="#012169"/>
+<text x="45" y="104" text-anchor="middle" fill="#fff" font-size="9.5" font-family="Arial Black,sans-serif" font-weight="900" letter-spacing="1.5">LONDON</text>
+</g>
+<rect width="90" height="110" rx="10" fill="none" stroke="#cc0000" stroke-width="2.5"/>
+</svg>`;}
+
+function svgNewYork(uid,lbl){return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 90 110" style="display:block;width:90px;height:auto">
+<defs><clipPath id="c${uid}"><rect width="90" height="110" rx="10"/></clipPath></defs>
+<g clip-path="url(#c${uid})">
+<rect width="90" height="110" fill="#5a8ec8"/>
+<rect y="70" width="90" height="40" fill="#2a4060"/>
+<rect x="5" y="45" width="12" height="30" fill="#2a3d55"/>
+<rect x="4" y="42" width="14" height="6" fill="#3a4d65"/>
+<rect x="18" y="52" width="10" height="23" fill="#2a3d55"/>
+<rect x="30" y="38" width="14" height="37" fill="#1a2d45"/>
+<rect x="32" y="32" width="4" height="10" fill="#1a2d45"/>
+<rect x="46" y="48" width="10" height="27" fill="#2a3d55"/>
+<rect x="58" y="42" width="12" height="33" fill="#1a2d45"/>
+<rect x="72" y="52" width="10" height="23" fill="#2a3d55"/>
+<rect x="7" y="52" width="2" height="2" fill="#ffe060" opacity="0.8"/>
+<rect x="11" y="48" width="2" height="2" fill="#ffe060" opacity="0.7"/>
+<rect x="33" y="44" width="2" height="2" fill="#ffe060" opacity="0.9"/>
+<rect x="48" y="54" width="2" height="2" fill="#ffe060" opacity="0.7"/>
+<rect x="18" y="54" width="4" height="18" rx="2" fill="#7a9e8a"/>
+<polygon points="20,54 16,54 18,48 22,48" fill="#7a9e8a"/>
+<polygon points="19,48 21,48 20,44" fill="#9abead"/>
+<line x1="20" y1="44" x2="16" y2="41" stroke="#9abead" stroke-width="1"/>
+<line x1="20" y1="44" x2="20" y2="40" stroke="#9abead" stroke-width="1"/>
+<line x1="20" y1="44" x2="24" y2="41" stroke="#9abead" stroke-width="1"/>
+<line x1="20" y1="44" x2="22" y2="38" stroke="#9abead" stroke-width="1.5"/>
+<circle cx="22" cy="38" r="2" fill="#ffd040"/>
+<rect y="88" width="90" height="22" fill="#cc0000"/>
+<text x="45" y="98" text-anchor="middle" fill="#fff" font-size="8.5" font-family="Arial Black,sans-serif" font-weight="900" letter-spacing="0.5">NEW YORK</text>
+</g>
+<rect width="90" height="110" rx="10" fill="none" stroke="#cc0000" stroke-width="2.5"/>
+</svg>`;}
+
+function svgSingapore(uid,lbl){return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 90 108" style="display:block;width:90px;height:auto">
+<defs><clipPath id="c${uid}"><ellipse cx="45" cy="54" rx="44" ry="52"/></clipPath></defs>
+<g clip-path="url(#c${uid})">
+<rect width="90" height="108" fill="#0d1a3a"/>
+<rect x="24" y="36" width="10" height="36" rx="2" fill="#2a5a8a"/>
+<rect x="40" y="30" width="10" height="42" rx="2" fill="#2a5a8a"/>
+<rect x="56" y="36" width="10" height="36" rx="2" fill="#2a5a8a"/>
+<path d="M20,36 Q45,28 70,36 L70,42 Q45,34 20,42 Z" fill="#3a7ab0"/>
+<ellipse cx="45" cy="34" rx="27" ry="6" fill="#2a8a40" opacity="0.9"/>
+<rect x="10" y="58" width="7" height="12" rx="3" fill="#aaa"/>
+<ellipse cx="13.5" cy="57" rx="5" ry="6" fill="#aaa"/>
+<rect y="68" width="90" height="12" fill="#0a1828"/>
+<rect x="24" y="70" width="2" height="8" fill="#2a6aaa" opacity="0.4"/>
+<rect x="44" y="70" width="2" height="10" fill="#2a6aaa" opacity="0.5"/>
+<rect x="62" y="70" width="2" height="8" fill="#2a6aaa" opacity="0.4"/>
+<circle cx="20" cy="14" r="1" fill="#fff" opacity="0.7"/>
+<circle cx="60" cy="10" r="1" fill="#fff" opacity="0.8"/>
+<circle cx="78" cy="20" r="1" fill="#fff" opacity="0.6"/>
+<circle cx="35" cy="8" r="0.8" fill="#fff" opacity="0.6"/>
+<ellipse cx="45" cy="96" rx="36" ry="9" fill="#cc0000"/>
+<text x="45" y="99.5" text-anchor="middle" fill="#fff" font-size="7.5" font-family="Arial Black,sans-serif" font-weight="900" letter-spacing="0.5">SINGAPORE</text>
+</g>
+<ellipse cx="45" cy="54" rx="44" ry="52" fill="none" stroke="#cc0000" stroke-width="2.5"/>
+</svg>`;}
+
+function svgSantorini(uid,lbl){return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 90 90" style="display:block;width:90px;height:auto">
+<defs><clipPath id="c${uid}"><circle cx="45" cy="45" r="43"/></clipPath></defs>
+<g clip-path="url(#c${uid})">
+<rect width="90" height="90" fill="#2a80cc"/>
+<rect y="58" width="90" height="32" fill="#1a60a8"/>
+<rect x="10" y="30" width="20" height="32" rx="3" fill="#f8f4ee"/>
+<rect x="28" y="38" width="18" height="24" rx="2" fill="#f0ece8"/>
+<rect x="44" y="32" width="24" height="30" rx="3" fill="#f8f4ee"/>
+<rect x="66" y="40" width="16" height="22" rx="2" fill="#f0ece8"/>
+<path d="M15,30 A10,12 0 0,1 35,30" fill="#1a5fcc"/>
+<ellipse cx="25" cy="30" rx="10" ry="4" fill="#1a5fcc"/>
+<path d="M47,32 A7,9 0 0,1 61,32" fill="#1a5fcc"/>
+<ellipse cx="54" cy="32" rx="7" ry="3" fill="#1a5fcc"/>
+<rect x="13" y="44" width="5" height="7" rx="1" fill="#1a3a6a"/>
+<rect x="21" y="46" width="5" height="5" rx="1" fill="#1a3a6a"/>
+<rect x="47" y="44" width="5" height="7" rx="1" fill="#1a3a6a"/>
+<rect x="56" y="44" width="5" height="5" rx="1" fill="#1a3a6a"/>
+<rect x="35" y="54" width="10" height="2" fill="#ddd8d0"/>
+<rect x="37" y="56" width="8" height="2" fill="#ddd8d0"/>
+<rect y="62" width="90" height="3" fill="rgba(255,255,255,0.25)"/>
+<rect y="72" width="90" height="18" fill="#1a3a8a"/>
+<text x="45" y="85" text-anchor="middle" fill="#fff" font-size="7.5" font-family="Arial Black,sans-serif" font-weight="900" letter-spacing="0.5">SANTORINI</text>
+</g>
+<circle cx="45" cy="45" r="43" fill="none" stroke="#1a5fcc" stroke-width="2.5"/>
+</svg>`;}
+
+function svgShanghai(uid,lbl){return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 90 108" style="display:block;width:90px;height:auto">
+<defs><clipPath id="c${uid}"><ellipse cx="45" cy="54" rx="44" ry="52"/></clipPath></defs>
+<g clip-path="url(#c${uid})">
+<rect width="90" height="108" fill="#1a0a30"/>
+<rect x="55" y="30" width="12" height="44" fill="#2a1a50"/>
+<rect x="69" y="40" width="10" height="34" fill="#1a1040"/>
+<rect x="10" y="42" width="10" height="32" fill="#2a1a50"/>
+<rect x="43" y="15" width="4" height="60" rx="2" fill="#3a2860"/>
+<circle cx="45" cy="52" r="12" fill="#cc3366"/>
+<circle cx="45" cy="52" r="9" fill="#dd4477" opacity="0.8"/>
+<circle cx="45" cy="32" r="7" fill="#cc3366"/>
+<circle cx="45" cy="32" r="5.5" fill="#dd4477" opacity="0.85"/>
+<polygon points="30,75 43,75 43,60" fill="#3a2860"/>
+<polygon points="60,75 47,75 47,60" fill="#2a1850"/>
+<polygon points="38,75 52,75 45,65" fill="#2a1850"/>
+<line x1="45" y1="15" x2="45" y2="5" stroke="#5a4880" stroke-width="2"/>
+<circle cx="45" cy="5" r="2" fill="#ffd040"/>
+<circle cx="15" cy="46" r="1" fill="#ffe040" opacity="0.7"/>
+<circle cx="62" cy="34" r="1" fill="#ffe040" opacity="0.8"/>
+<circle cx="72" cy="44" r="1" fill="#ffe040" opacity="0.6"/>
+<ellipse cx="45" cy="96" rx="32" ry="9" fill="#8a0030"/>
+<text x="45" y="99.5" text-anchor="middle" fill="#ffd040" font-size="9" font-family="Arial Black,sans-serif" font-weight="900" letter-spacing="1">SHANGHAI</text>
+</g>
+<ellipse cx="45" cy="54" rx="44" ry="52" fill="none" stroke="#cc3366" stroke-width="2.5"/>
+</svg>`;}
+
+function svgDubai(uid,lbl){return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 90 112" style="display:block;width:90px;height:auto">
+<defs>
+<clipPath id="c${uid}"><path d="M2,24 Q45,-6 88,24 L88,112 L2,112 Z"/></clipPath>
+<linearGradient id="dxb${uid}" x1="0" y1="0" x2="0" y2="1">
+<stop offset="0%" stop-color="#2a0860"/>
+<stop offset="45%" stop-color="#8a2060"/>
+<stop offset="100%" stop-color="#e8602a"/>
+</linearGradient>
+</defs>
+<g clip-path="url(#c${uid})">
+<rect width="90" height="112" fill="url(#dxb${uid})"/>
+<ellipse cx="25" cy="80" rx="30" ry="10" fill="#d8b070"/>
+<ellipse cx="75" cy="84" rx="20" ry="7" fill="#c8a058"/>
+<polygon points="45,8 37,76 53,76" fill="#b8c0c8"/>
+<rect x="34" y="66" width="22" height="5" rx="1" fill="#a8b0b8"/>
+<rect x="36" y="58" width="18" height="5" rx="1" fill="#a8b0b8"/>
+<rect x="38" y="50" width="14" height="4" rx="1" fill="#a8b0b8"/>
+<rect x="40" y="43" width="10" height="4" rx="1" fill="#a8b0b8"/>
+<rect x="42" y="36" width="6" height="4" rx="1" fill="#a8b0b8"/>
+<line x1="45" y1="8" x2="45" y2="3" stroke="#b8c0c8" stroke-width="2"/>
+<circle cx="70" cy="24" r="10" fill="#f8d040" opacity="0.65"/>
+<circle cx="20" cy="16" r="1" fill="#fff" opacity="0.8"/>
+<circle cx="35" cy="12" r="1" fill="#fff" opacity="0.6"/>
+<rect y="90" width="90" height="22" fill="#8a1a00"/>
+<text x="45" y="105" text-anchor="middle" fill="#ffd060" font-size="10" font-family="Arial Black,sans-serif" font-weight="900" letter-spacing="2">DUBAI</text>
+</g>
+<path d="M2,24 Q45,-6 88,24 L88,112 L2,112 Z" fill="none" stroke="#e8a000" stroke-width="2.5"/>
+</svg>`;}
+
+function svgBarcelona(uid,lbl){return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 90 108" style="display:block;width:90px;height:auto">
+<defs><clipPath id="c${uid}"><ellipse cx="45" cy="54" rx="44" ry="52"/></clipPath></defs>
+<g clip-path="url(#c${uid})">
+<rect width="90" height="108" fill="#e09050"/>
+<rect y="74" width="90" height="34" fill="#3a5030"/>
+<ellipse cx="75" cy="28" rx="10" ry="5" fill="rgba(255,220,160,0.5)"/>
+<ellipse cx="18" cy="26" rx="8" ry="4" fill="rgba(255,220,160,0.4)"/>
+<rect x="35" y="32" width="20" height="46" rx="2" fill="#c8a870"/>
+<polygon points="45,10 40,32 50,32" fill="#c8a870"/>
+<polygon points="45,10 43,22 47,22" fill="#d8b880"/>
+<circle cx="45" cy="9" r="3" fill="#e8d090"/>
+<rect x="20" y="40" width="14" height="38" rx="2" fill="#b89860"/>
+<polygon points="27,20 22,40 32,40" fill="#b89860"/>
+<circle cx="27" cy="19" r="2.5" fill="#d0b070"/>
+<rect x="56" y="40" width="14" height="38" rx="2" fill="#b89860"/>
+<polygon points="63,20 58,40 68,40" fill="#b89860"/>
+<circle cx="63" cy="19" r="2.5" fill="#d0b070"/>
+<circle cx="45" cy="48" r="6" fill="rgba(255,200,100,0.4)" stroke="#b89050" stroke-width="1"/>
+<circle cx="45" cy="48" r="3" fill="rgba(255,200,100,0.3)"/>
+<polygon points="10,40 7,70 13,70" fill="#a88850"/>
+<polygon points="80,40 77,70 83,70" fill="#a88850"/>
+<ellipse cx="45" cy="96" rx="34" ry="9" fill="#8a2000"/>
+<text x="45" y="99.5" text-anchor="middle" fill="#ffd060" font-size="8" font-family="Arial Black,sans-serif" font-weight="900" letter-spacing="0.5">BARCELONA</text>
+</g>
+<ellipse cx="45" cy="54" rx="44" ry="52" fill="none" stroke="#c84000" stroke-width="2.5"/>
+</svg>`;}
+
+function svgSeoul(uid,lbl){return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 90 110" style="display:block;width:90px;height:auto">
+<defs><clipPath id="c${uid}"><rect width="90" height="110" rx="10"/></clipPath></defs>
+<g clip-path="url(#c${uid})">
+<rect width="90" height="110" fill="#5a8cc8"/>
+<rect y="74" width="90" height="36" fill="#3a5030"/>
+<polygon points="45,28 14,76 76,76" fill="#5a8a50"/>
+<rect x="43" y="16" width="4" height="28" rx="2" fill="#888"/>
+<rect x="38" y="36" width="14" height="5" rx="2.5" fill="#aaa"/>
+<rect x="40" y="30" width="10" height="4" rx="2" fill="#999"/>
+<line x1="45" y1="16" x2="45" y2="8" stroke="#888" stroke-width="2"/>
+<circle cx="45" cy="7" r="2" fill="#cc0000"/>
+<rect x="22" y="76" width="46" height="14" rx="1" fill="#8a5020"/>
+<polygon points="18,76 72,76 68,70 22,70" fill="#c06030"/>
+<polygon points="24,70 66,70 63,66 27,66" fill="#cc6838"/>
+<rect x="38" y="80" width="14" height="10" rx="2" fill="#2a1a08"/>
+<rect x="24" y="70" width="5" height="20" rx="1" fill="#9a6028"/>
+<rect x="61" y="70" width="5" height="20" rx="1" fill="#9a6028"/>
+<rect y="90" width="90" height="20" fill="#003478"/>
+<text x="45" y="104" text-anchor="middle" fill="#fff" font-size="9.5" font-family="Arial Black,sans-serif" font-weight="900" letter-spacing="2">SEOUL</text>
+</g>
+<rect width="90" height="110" rx="10" fill="none" stroke="#cc0000" stroke-width="2.5"/>
+</svg>`;}
+
+function svgBusan(uid,lbl){return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 90 108" style="display:block;width:90px;height:auto">
+<defs><clipPath id="c${uid}"><ellipse cx="45" cy="54" rx="44" ry="52"/></clipPath></defs>
+<g clip-path="url(#c${uid})">
+<rect width="90" height="108" fill="#2a7ac0"/>
+<rect y="62" width="90" height="46" fill="#1a5a9a"/>
+<polygon points="0,62 20,30 40,62" fill="#3a6a50"/>
+<polygon points="50,62 75,22 100,62" fill="#2a5a40"/>
+<polygon points="20,62 45,38 70,62" fill="#4a7a5a"/>
+<path d="M0,64 Q45,55 90,64" fill="none" stroke="#ddd" stroke-width="3"/>
+<line x1="20" y1="55" x2="20" y2="62" stroke="#ccc" stroke-width="1"/>
+<line x1="32" y1="52" x2="32" y2="62" stroke="#ccc" stroke-width="1"/>
+<line x1="45" y1="52" x2="45" y2="62" stroke="#ccc" stroke-width="1"/>
+<line x1="58" y1="52" x2="58" y2="62" stroke="#ccc" stroke-width="1"/>
+<line x1="70" y1="55" x2="70" y2="62" stroke="#ccc" stroke-width="1"/>
+<rect x="28" y="50" width="4" height="15" fill="#aaa"/>
+<rect x="58" y="50" width="4" height="15" fill="#aaa"/>
+<path d="M0,72 Q22,68 45,72 Q68,76 90,72" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="1.5"/>
+<circle cx="72" cy="20" r="10" fill="#ffd040" opacity="0.8"/>
+<ellipse cx="45" cy="96" rx="28" ry="9" fill="#0a2a6a"/>
+<text x="45" y="99.5" text-anchor="middle" fill="#fff" font-size="9.5" font-family="Arial Black,sans-serif" font-weight="900" letter-spacing="2">BUSAN</text>
+</g>
+<ellipse cx="45" cy="54" rx="44" ry="52" fill="none" stroke="#2a7ac0" stroke-width="2.5"/>
+</svg>`;}
+
+function svgHongKong(uid,lbl){return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 90 108" style="display:block;width:90px;height:auto">
+<defs><clipPath id="c${uid}"><ellipse cx="45" cy="54" rx="44" ry="52"/></clipPath></defs>
+<g clip-path="url(#c${uid})">
+<rect width="90" height="108" fill="#0a0e28"/>
+<rect x="3" y="40" width="8" height="28" fill="#1a2040"/>
+<rect x="5" y="34" width="4" height="8" fill="#1a2040"/>
+<rect x="13" y="32" width="10" height="36" fill="#0a1830"/>
+<rect x="16" y="24" width="4" height="10" fill="#0a1830"/>
+<rect x="25" y="38" width="8" height="30" fill="#1a2040"/>
+<rect x="35" y="28" width="12" height="40" fill="#0a1830"/>
+<rect x="38" y="18" width="6" height="12" fill="#0a1830"/>
+<rect x="50" y="14" width="9" height="54" fill="#0a1830"/>
+<rect x="52" y="8" width="5" height="8" fill="#0a1830"/>
+<line x1="54.5" y1="8" x2="54.5" y2="3" stroke="#2a3060" stroke-width="1.5"/>
+<rect x="62" y="30" width="10" height="38" fill="#1a2040"/>
+<rect x="74" y="42" width="8" height="26" fill="#1a2040"/>
+<rect x="6" y="38" width="2" height="2" fill="#ffe060" opacity="0.7"/>
+<rect x="15" y="28" width="2" height="2" fill="#ffa040" opacity="0.8"/>
+<rect x="37" y="22" width="2" height="2" fill="#ffe060" opacity="0.9"/>
+<rect x="51" y="20" width="2" height="2" fill="#ffa040" opacity="0.8"/>
+<rect x="51" y="32" width="2" height="2" fill="#ffe060" opacity="0.7"/>
+<rect x="64" y="34" width="2" height="2" fill="#ffa040" opacity="0.7"/>
+<rect y="68" width="90" height="12" fill="#0a0e20"/>
+<circle cx="18" cy="14" r="1.2" fill="#fff" opacity="0.7"/>
+<circle cx="72" cy="10" r="1" fill="#fff" opacity="0.8"/>
+<ellipse cx="45" cy="96" rx="36" ry="9" fill="#cc0000"/>
+<text x="45" y="99.5" text-anchor="middle" fill="#fff" font-size="8" font-family="Arial Black,sans-serif" font-weight="900" letter-spacing="0.5">HONG KONG</text>
+</g>
+<ellipse cx="45" cy="54" rx="44" ry="52" fill="none" stroke="#cc0000" stroke-width="2.5"/>
+</svg>`;}
+
+function svgVenice(uid,lbl){return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 90 108" style="display:block;width:90px;height:auto">
+<defs><clipPath id="c${uid}"><ellipse cx="45" cy="54" rx="44" ry="52"/></clipPath></defs>
+<g clip-path="url(#c${uid})">
+<rect width="90" height="108" fill="#6aaad8"/>
+<rect y="62" width="90" height="46" fill="#2a6a9a"/>
+<rect x="0" y="30" width="20" height="36" rx="2" fill="#d8c090"/>
+<rect x="0" y="25" width="22" height="8" rx="1" fill="#c8b080"/>
+<path d="M0,25 L11,18 L22,25" fill="#c8b080"/>
+<path d="M4,36 A4,5 0 0,1 12,36 L12,44 L4,44 Z" fill="#8ab8d0"/>
+<rect x="70" y="28" width="20" height="38" rx="2" fill="#e0c898"/>
+<rect x="68" y="24" width="22" height="7" rx="1" fill="#d0b888"/>
+<path d="M68,24 L79,16 L90,24" fill="#d0b888"/>
+<path d="M72,36 A4,5 0 0,1 80,36 L80,44 L72,44 Z" fill="#8ab8d0"/>
+<rect x="18" y="58" width="54" height="50" fill="#1a5a8a"/>
+<path d="M25,68 Q45,62 65,68 L62,78 Q45,72 28,78 Z" fill="#111"/>
+<rect x="40" y="63" width="10" height="6" rx="1" fill="#111"/>
+<line x1="50" y1="64" x2="50" y2="55" stroke="#333" stroke-width="2"/>
+<circle cx="50" cy="53" r="3" fill="#c8a060"/>
+<path d="M18,62 Q45,48 72,62" fill="none" stroke="#d8c090" stroke-width="5"/>
+<path d="M18,62 Q45,48 72,62" fill="none" stroke="#f0e0b0" stroke-width="2.5"/>
+<rect x="42" y="48" width="6" height="4" rx="1" fill="#d0b880"/>
+<ellipse cx="45" cy="96" rx="30" ry="9" fill="#1a2a6a"/>
+<text x="45" y="99.5" text-anchor="middle" fill="#e8d060" font-size="9" font-family="Arial Black,sans-serif" font-weight="900" letter-spacing="1">VENICE</text>
+</g>
+<ellipse cx="45" cy="54" rx="44" ry="52" fill="none" stroke="#c8a040" stroke-width="2.5"/>
+</svg>`;}
+
+function svgSydney(uid,lbl){return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 90 108" style="display:block;width:90px;height:auto">
+<defs><clipPath id="c${uid}"><ellipse cx="45" cy="54" rx="44" ry="52"/></clipPath></defs>
+<g clip-path="url(#c${uid})">
+<rect width="90" height="108" fill="#4a9ad4"/>
+<rect y="68" width="90" height="40" fill="#1a5a9a"/>
+<path d="M18,68 Q20,42 35,40 Q40,48 35,68 Z" fill="#f0ede8"/>
+<path d="M28,68 Q32,36 44,34 Q50,44 44,68 Z" fill="#e8e4de"/>
+<path d="M38,68 Q44,30 56,28 Q63,40 56,68 Z" fill="#f0ede8"/>
+<path d="M50,68 Q56,38 65,40 Q69,50 65,68 Z" fill="#e8e4de"/>
+<line x1="30" y1="46" x2="36" y2="60" stroke="rgba(200,196,190,0.55)" stroke-width="0.8"/>
+<line x1="44" y1="40" x2="50" y2="60" stroke="rgba(200,196,190,0.55)" stroke-width="0.8"/>
+<line x1="57" y1="40" x2="62" y2="60" stroke="rgba(200,196,190,0.55)" stroke-width="0.8"/>
+<path d="M0,55 Q45,30 90,55" fill="none" stroke="#888" stroke-width="4"/>
+<rect x="0" y="55" width="12" height="20" fill="#888"/>
+<rect x="78" y="55" width="12" height="20" fill="#888"/>
+<line x1="0" y1="66" x2="90" y2="66" stroke="#666" stroke-width="2"/>
+<path d="M0,75 Q22,70 45,75 Q68,80 90,75" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="1.5"/>
+<circle cx="72" cy="18" r="12" fill="#ffd040" opacity="0.8"/>
+<ellipse cx="45" cy="96" rx="30" ry="9" fill="#006400"/>
+<text x="45" y="99.5" text-anchor="middle" fill="#ffd040" font-size="9" font-family="Arial Black,sans-serif" font-weight="900" letter-spacing="1">SYDNEY</text>
+</g>
+<ellipse cx="45" cy="54" rx="44" ry="52" fill="none" stroke="#006400" stroke-width="2.5"/>
+</svg>`;}
+
+function svgDefault(uid,lbl,idx){
+  const cols=[['#ff6b35','#2d4059','#f7c59f'],['#7b2d8b','#264653','#e9c46a'],['#023e8a','#0096c7','#90e0ef'],['#606c38','#283618','#dda15e'],['#d62828','#023047','#fcbf49']];
+  const c=cols[idx%cols.length];
+  const initials=lbl.slice(0,3);
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 90 108" style="display:block;width:90px;height:auto">
+<defs>
+<clipPath id="c${uid}"><ellipse cx="45" cy="54" rx="44" ry="52"/></clipPath>
+<radialGradient id="rg${uid}" cx="40%" cy="35%" r="60%"><stop offset="0%" stop-color="${c[2]}"/><stop offset="100%" stop-color="${c[0]}"/></radialGradient>
+</defs>
+<g clip-path="url(#c${uid})">
+<rect width="90" height="108" fill="url(#rg${uid})"/>
+<circle cx="45" cy="46" r="28" fill="rgba(255,255,255,0.1)"/>
+<circle cx="45" cy="46" r="20" fill="rgba(255,255,255,0.08)"/>
+<polygon points="45,22 47,42 45,44 43,42" fill="rgba(255,255,255,0.45)"/>
+<polygon points="45,66 47,46 45,44 43,46" fill="rgba(255,255,255,0.45)"/>
+<polygon points="21,44 41,42 45,44 41,46" fill="rgba(255,255,255,0.45)"/>
+<polygon points="69,44 49,42 45,44 49,46" fill="rgba(255,255,255,0.45)"/>
+<text x="45" y="53" text-anchor="middle" fill="rgba(255,255,255,0.9)" font-size="18" font-family="Arial Black,sans-serif" font-weight="900">${initials}</text>
+<circle cx="45" cy="46" r="24" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="1"/>
+<ellipse cx="45" cy="96" rx="34" ry="9" fill="${c[1]}"/>
+<text x="45" y="99.5" text-anchor="middle" fill="#fff" font-size="7.5" font-family="Arial Black,sans-serif" font-weight="900" letter-spacing="0.5">${lbl.slice(0,12)}</text>
+</g>
+<ellipse cx="45" cy="54" rx="44" ry="52" fill="none" stroke="${c[0]}" stroke-width="2.5"/>
+</svg>`;}
+
+function openMagnet(){
+  const ov = document.getElementById('magnetOverlay');
+  ov.style.display = 'flex';
+  renderMagnetBoard();
+}
+
+function closeMagnet(){
+  document.getElementById('magnetOverlay').style.display = 'none';
+}
+
+function renderMagnetBoard(){
+  const board = document.getElementById('magnetBoard');
+  board.innerHTML = '';
+  if(!trips.length){
+    board.innerHTML = `<div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;font-family:'Noto Sans KR',sans-serif;color:rgba(255,255,255,0.45);font-size:13px;line-height:2;">여행을 추가하면<br>마그넷이 생겨요 🧲</div>`;
+    return;
+  }
+  const bw = board.offsetWidth || 380;
+  const saved = JSON.parse(localStorage.getItem('zephyr_magnets')||'{}');
+  trips.forEach((t,i)=>{
+    const pos = saved[t.id] || {
+      x: 16 + (i%3) * Math.floor((bw-110)/3) + (Math.random()*16-8),
+      y: 16 + Math.floor(i/3) * 138 + (Math.random()*16-8)
+    };
+    const el = document.createElement('div');
+    el.className = 'magnet-item';
+    el.dataset.id = t.id;
+    el.style.cssText = `position:absolute;left:${pos.x}px;top:${pos.y}px;cursor:grab;user-select:none;filter:drop-shadow(2px 5px 10px rgba(0,0,0,0.45));transition:filter .2s,transform .15s;touch-action:none;`;
+    el.innerHTML = getMagnetSVG(t, i);
+    makeMagnetDraggable(el, t.id);
+    board.appendChild(el);
+  });
+}
+
+function makeMagnetDraggable(el, tripId){
+  let startX,startY,ox,oy,dragging=false;
+  function onStart(e){
+    e.preventDefault();dragging=true;
+    el.style.transition='none';el.style.zIndex=999;
+    el.style.transform='rotate(2deg) scale(1.08)';
+    el.style.filter='drop-shadow(4px 10px 18px rgba(0,0,0,0.55))';
+    el.style.cursor='grabbing';
+    const t=e.touches?e.touches[0]:e;
+    startX=t.clientX;startY=t.clientY;
+    ox=parseFloat(el.style.left);oy=parseFloat(el.style.top);
+  }
+  function onMove(e){
+    if(!dragging)return;
+    const t=e.touches?e.touches[0]:e;
+    el.style.left=(ox+t.clientX-startX)+'px';
+    el.style.top=(oy+t.clientY-startY)+'px';
+  }
+  function onEnd(){
+    if(!dragging)return;dragging=false;
+    el.style.transform='';
+    el.style.filter='drop-shadow(2px 5px 10px rgba(0,0,0,0.45))';
+    el.style.cursor='grab';el.style.zIndex='';
+    const saved=JSON.parse(localStorage.getItem('zephyr_magnets')||'{}');
+    saved[tripId]={x:parseFloat(el.style.left),y:parseFloat(el.style.top)};
+    localStorage.setItem('zephyr_magnets',JSON.stringify(saved));
+  }
+  el.addEventListener('mousedown',onStart);
+  el.addEventListener('touchstart',onStart,{passive:false});
+  window.addEventListener('mousemove',onMove);
+  window.addEventListener('touchmove',onMove,{passive:false});
+  window.addEventListener('mouseup',onEnd);
+  window.addEventListener('touchend',onEnd);
+}
+
 function toggleMapStyle(){} // 구버전 호환용 stub
 
 // ── 어시스티브 터치 ──
@@ -1561,25 +2473,76 @@ function confirmAlbumSelect(){
   closeAlbum();
 }
 
-function openEditor(){
+function openEditor(editId){
   const editor = document.getElementById('screen-editor');
   editor.style.display = 'block';
-  document.getElementById('editorHeroBg').style.background = GRADS[Math.floor(Math.random()*GRADS.length)];
-  document.getElementById('editorHeroBg').style.backgroundImage = '';
-  document.getElementById('scheduleList').innerHTML = '';
-  addScheduleItem();
+  window._editingTripId = editId || null;
+
+  if(editId){
+    // 수정 모드 — 기존 데이터 채우기
+    const t = trips.find(x=>x.id===editId);
+    if(!t) return;
+    document.getElementById('inCity').value = t.city||'';
+    document.getElementById('inCityEn').value = t.cityEn||'';
+    document.getElementById('inDate').value = t.date||'';
+    if(t.date){
+      document.getElementById('inDateShort').value = t.date.replace(/\./g,'').slice(2);
+      document.getElementById('inDateDisplay').textContent = `📅 ${t.date}`;
+    }
+    document.getElementById('inBlog').value = t.blog||'';
+    // 커버
+    if(t.coverPhoto){
+      window._coverPhotoSrc = t.coverPhoto;
+      const bg = document.getElementById('editorHeroBg');
+      bg.style.backgroundImage = `url(${t.coverPhoto})`;
+      bg.style.backgroundSize='cover'; bg.style.backgroundPosition='center'; bg.style.background='';
+    } else {
+      document.getElementById('editorHeroBg').style.background = t.gradient||GRADS[0];
+      document.getElementById('editorHeroBg').style.backgroundImage='';
+      window._coverPhotoSrc = null;
+    }
+    // 기분
+    document.querySelectorAll('.mood-pill-editor').forEach(p=>p.classList.remove('sel'));
+    document.querySelectorAll('.mood-pill-editor').forEach(p=>{ if(p.dataset.mood===t.mood) p.classList.add('sel'); });
+    // 일정 블록
+    document.getElementById('scheduleList').innerHTML='';
+    (t.schedule||[]).forEach(s=>{
+      if(s.type==='event') addScheduleItem(s.icon, s.title||s.text, s.blog||s.text, s.cat||'general');
+      else if(s.type==='photo') addPhotoItem(s.src, s.caption);
+    });
+    window._album = t.albumPhotos||[];
+    renderTripTagChips(t.tripTag||'none');
+  } else {
+    // 새 여행
+    document.getElementById('editorHeroBg').style.background = GRADS[Math.floor(Math.random()*GRADS.length)];
+    document.getElementById('editorHeroBg').style.backgroundImage = '';
+    document.getElementById('scheduleList').innerHTML = '';
+    addScheduleItem();
+    window._coverPhotoSrc = null;
+    window._album = [];
+    renderTripTagChips('none');
+  }
   editor.scrollTop = 0;
   editor.classList.add('screen-enter');
   setTimeout(()=>editor.classList.remove('screen-enter'), 380);
 }
 function closeEditor(){
   document.getElementById('screen-editor').style.display = 'none';
-  ['inCity','inCityEn','inDate','inBlog'].forEach(id=>document.getElementById(id).value='');
+  // 수정 모드에서 왔으면 상세뷰로, 아니면 홈으로
+  if(!window._editingTripId){
+    document.getElementById('screen-map').style.display = 'flex';
+    setTimeout(()=>{if(window._map)window._map.invalidateSize();},60);
+  }
+  ['inCity','inCityEn','inDate','inDateShort','inBlog'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  document.getElementById('inDateDisplay').textContent = '';
+  document.getElementById('datePop').style.display = 'none';
   document.getElementById('scheduleList').innerHTML='';
   document.querySelectorAll('.mood-pill-editor').forEach(p=>p.classList.remove('sel'));
+  renderTripTagChips('none');
   window._coverPhotoSrc = null;
   window._album = [];
   window._albumSelected = new Set();
+  window._editingTripId = null;
 }
 function setCoverPhoto(input){
   if(!input.files||!input.files[0]) return;
@@ -1594,6 +2557,88 @@ function setCoverPhoto(input){
   };
   reader.readAsDataURL(input.files[0]);
 }
+// ── 커스텀 달력 팝업 ──────────────────────────────
+function toggleDatePopup(){
+  const pop = document.getElementById('datePop');
+  if(pop.style.display==='none'||!pop.style.display){
+    // 초기화
+    const now = new Date();
+    const curVal = document.getElementById('inDate').value; // YYYY.MM.DD or YYYY.MM
+    let cy=now.getFullYear(), cm=now.getMonth()+1, cd=now.getDate();
+    if(curVal){
+      const parts = curVal.split('.');
+      if(parts[0]) cy=parseInt(parts[0]);
+      if(parts[1]) cm=parseInt(parts[1]);
+      if(parts[2]) cd=parseInt(parts[2]);
+    }
+    const yEl=document.getElementById('dpYear');
+    const mEl=document.getElementById('dpMonth');
+    const dEl=document.getElementById('dpDay');
+    yEl.innerHTML=''; mEl.innerHTML=''; dEl.innerHTML='';
+    for(let y=2010;y<=2030;y++) yEl.innerHTML+=`<option value="${y}"${y===cy?' selected':''}>${y}년</option>`;
+    for(let m=1;m<=12;m++) mEl.innerHTML+=`<option value="${m}"${m===cm?' selected':''}>${String(m).padStart(2,'0')}월</option>`;
+    const days = new Date(cy,cm,0).getDate();
+    for(let d=1;d<=days;d++) dEl.innerHTML+=`<option value="${d}"${d===cd?' selected':''}>${String(d).padStart(2,'0')}일</option>`;
+    pop.style.display='block';
+    document.addEventListener('click', closeDatePopOutside, {once:true, capture:true});
+  } else {
+    pop.style.display='none';
+  }
+}
+function closeDatePopOutside(e){
+  const pop=document.getElementById('datePop');
+  if(!pop.contains(e.target) && e.target.id!=='dpYear' && e.target.id!=='dpMonth' && e.target.id!=='dpDay'){
+    pop.style.display='none';
+  }
+}
+function applyDatePop(){
+  const y=document.getElementById('dpYear').value;
+  const m=document.getElementById('dpMonth').value;
+  // 날짜 select 옵션 갱신
+  const d=document.getElementById('dpDay');
+  const days=new Date(parseInt(y),parseInt(m),0).getDate();
+  const cur=parseInt(d.value)||1;
+  d.innerHTML='';
+  for(let i=1;i<=days;i++) d.innerHTML+=`<option value="${i}"${i===cur?' selected':''}>${String(i).padStart(2,'0')}일</option>`;
+}
+function confirmDatePop(){
+  const y=document.getElementById('dpYear').value;
+  const m=String(document.getElementById('dpMonth').value).padStart(2,'0');
+  const d=String(document.getElementById('dpDay').value).padStart(2,'0');
+  document.getElementById('inDate').value=`${y}.${m}.${d}`;
+  document.getElementById('inDateShort').value=`${y.slice(2)}${m}${d}`;
+  document.getElementById('inDateDisplay').textContent=`✓ ${y}년 ${m}월 ${d}일`;
+  document.getElementById('datePop').style.display='none';
+}
+function syncDateFromShort(){
+  let v = document.getElementById('inDateShort').value.trim();
+  const digits = v.replace(/\D/g,'');
+  let result = '', display = '';
+  if(digits.length === 6){
+    const yy=digits.slice(0,2), mm=digits.slice(2,4), dd=digits.slice(4,6);
+    const yyyy = parseInt(yy)<50?'20'+yy:'19'+yy;
+    result = `${yyyy}.${mm}.${dd}`;
+    display = `✓ ${yyyy}년 ${mm}월 ${dd}일`;
+  } else if(digits.length === 8){
+    const yyyy=digits.slice(0,4), mm=digits.slice(4,6), dd=digits.slice(6,8);
+    result = `${yyyy}.${mm}.${dd}`;
+    display = `✓ ${yyyy}년 ${mm}월 ${dd}일`;
+  } else if(digits.length === 4){
+    const yy=digits.slice(0,2), mm=digits.slice(2,4);
+    const yyyy = parseInt(yy)<50?'20'+yy:'19'+yy;
+    result = `${yyyy}.${mm}`;
+    display = `✓ ${yyyy}년 ${mm}월`;
+  } else if(v.match(/^\d{4}-\d{2}-\d{2}$/)){
+    const [yyyy,mm,dd] = v.split('-');
+    result = `${yyyy}.${mm}.${dd}`;
+    display = `✓ ${yyyy}년 ${mm}월 ${dd}일`;
+  } else {
+    result = v;
+    display = '';
+  }
+  document.getElementById('inDate').value = result;
+  document.getElementById('inDateDisplay').textContent = display;
+}
 function updateEditorHero(){
   const colors = ['linear-gradient(160deg,#1a3a2a,#0a1f14)','linear-gradient(160deg,#3a2820,#1a0e08)','linear-gradient(160deg,#1a2a3a,#0a1420)','linear-gradient(160deg,#2a1a3a,#140a20)','linear-gradient(160deg,#3a1a2a,#1e0a14)'];
   const city = document.getElementById('inCity').value;
@@ -1607,21 +2652,35 @@ function pickMoodEditor(el){
 // 일정 아이콘 옵션
 const ICONS = ['✈️','🚂','🚌','🛳️','🏨','🍜','🍷','☕','🗺️','🏔️','🏖️','🌅','🎨','🎭','🛍️','💆','🏃'];
 let iconIdx = 0;
-function addScheduleItem(){
+function addScheduleItem(iconVal, titleVal, textVal, catVal){
   const list = document.getElementById('scheduleList');
   const block = document.createElement('div');
   block.className = 'schedule-block';
-  const icon = ICONS[iconIdx % ICONS.length]; iconIdx++;
+  const icon = iconVal || ICONS[iconIdx % ICONS.length]; iconIdx++;
+  const CATS = [
+    {key:'general', label:'📌 일반', color:'rgba(150,150,160,0.5)'},
+    {key:'food',    label:'🍜 맛집',  color:'rgba(255,160,60,0.55)'},
+    {key:'stay',    label:'🏨 숙소',  color:'rgba(80,160,255,0.50)'},
+    {key:'spot',    label:'🏔 명소',  color:'rgba(80,200,120,0.50)'},
+    {key:'shop',    label:'🛍 쇼핑',  color:'rgba(220,100,220,0.50)'},
+    {key:'transport',label:'✈️ 이동', color:'rgba(255,220,60,0.50)'},
+  ];
+  const catOptions = CATS.map(c=>`<button type="button" class="cat-chip${(catVal||'general')===c.key?' active':''}" data-cat="${c.key}" onclick="selectCat(this)" style="--cat-color:${c.color}">${c.label}</button>`).join('');
   block.innerHTML = `
     <div class="schedule-item">
       <span class="schedule-icon" onclick="cycleIcon(this)">${icon}</span>
-      <input class="schedule-text t3" placeholder="장소 또는 활동" type="text">
+      <input class="schedule-text t3" placeholder="장소 또는 활동" type="text" value="${titleVal||''}">
       <span class="schedule-del" onclick="this.closest('.schedule-block').remove()">×</span>
     </div>
-    <textarea class="schedule-blog-input t3" placeholder="이 순간에 대해 자유롭게 써보세요... (선택)"></textarea>
+    <div class="cat-chips">${catOptions}</div>
+    <textarea class="schedule-blog-input t3" placeholder="이 순간에 대해 자유롭게 써보세요... (선택)">${textVal||''}</textarea>
   `;
   list.appendChild(block);
-  block.querySelector('.schedule-text').focus();
+  if(!titleVal) block.querySelector('.schedule-text').focus();
+}
+function selectCat(el){
+  el.closest('.cat-chips').querySelectorAll('.cat-chip').forEach(c=>c.classList.remove('active'));
+  el.classList.add('active');
 }
 function cycleIcon(el){
   iconIdx = (ICONS.indexOf(el.textContent)+1) % ICONS.length;
@@ -1668,11 +2727,14 @@ function previewPhoto(input){
 // ── 여권 인트로 ──
 (function(){
   const intro = document.getElementById('passport-intro');
-  // 탭해야만 닫기 (자동 닫기 없음)
-  intro.addEventListener('click', () => {
+  let closed = false;
+  function closeIntro(){
+    if(closed) return;
+    closed = true;
     intro.classList.add('passport-fade-out');
-    setTimeout(() => { intro.style.display='none'; }, 600);
-  });
+    setTimeout(()=>{ intro.style.display='none'; }, 600);
+  }
+  intro.addEventListener('click', closeIntro);
 })();
 
 // ── 티켓 ──
@@ -1707,17 +2769,40 @@ function tearTicket(){
     closeTicket();
     card.classList.remove('ticket-tearing');
     if(_ticketTripId) openDetail(_ticketTripId);
-  }, 520);
+  }, 950);
 }
 
 function openModal(){ openEditor(); }
 function closeModal(){closeEditor();}
 function closeModalOutside(){}
 function pickMood(el){pickMoodEditor(el);}
+function editCurrentTrip(){
+  if(!_currentDetailTrip) return;
+  openEditor(_currentDetailTrip.id);
+}
+
+function deleteCurrentTrip(){
+  if(!_currentDetailTrip) return;
+  if(!confirm(`"${_currentDetailTrip.city}" 여행을 삭제할까요?`)) return;
+  trips = trips.filter(t => t.id !== _currentDetailTrip.id);
+  saveTripData();
+  goBack();
+  renderList();
+  renderMarkers();
+}
+
 function goBack(){document.getElementById('screen-detail').style.display='none';document.getElementById('screen-map').style.display='flex';setTimeout(()=>{if(window._map)window._map.invalidateSize();},60);}
 
 // ── 상세뷰 갤러리 ──
 let _currentDetailTrip = null;
+function switchTab(name, btn){
+  ['timeline','photos','story','memo'].forEach(t=>{
+    document.getElementById('tab'+t.charAt(0).toUpperCase()+t.slice(1)).style.display = t===name?'block':'none';
+  });
+  document.querySelectorAll('.detail-tab').forEach(b=>b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+}
+
 function openDetailGallery(){
   if(!_currentDetailTrip) return;
   const t = _currentDetailTrip;
@@ -1911,13 +2996,18 @@ window.addEventListener('load',function(){
   window._map=L.map('map',{center:[30,20],zoom:2,minZoom:1,maxZoom:16,zoomSnap:0.5,zoomDelta:0.5});
   window._mg=L.layerGroup().addTo(window._map);
   window._tl=L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap',maxZoom:19}).addTo(window._map);
-  trips.forEach(addMarker);renderList();
+  loadTripData();
+  trips.forEach(addMarker);
+  renderHomeFilter();
+  renderList();
   window.saveTrip=function(){
     const city=document.getElementById('inCity').value.trim();
     const cityEn=document.getElementById('inCityEn').value.trim();
     const date=document.getElementById('inDate').value.trim();
     const blog=document.getElementById('inBlog').value.trim();
     const moodEl=document.querySelector('.mood-pill-editor.sel');
+    const tripTagEl=document.querySelector('#tripTagChips .cat-chip.active');
+    const tripTag=tripTagEl?tripTagEl.dataset.tag:'none';
     if(!city){alert('여행지를 입력해주세요.');return;}
 
     // 일정 + 사진 블록 수집
@@ -1928,7 +3018,9 @@ window.addEventListener('load',function(){
         const text = block.querySelector('.schedule-text').value.trim();
         const blog = block.querySelector('.schedule-blog-input').value.trim();
         const icon = block.querySelector('.schedule-icon').textContent;
-        if(text) dayEvents.push({type:'event', icon, text, blog: blog||''});
+        const activeCat = block.querySelector('.cat-chip.active');
+        const cat = activeCat ? activeCat.dataset.cat : 'general';
+        if(text) dayEvents.push({type:'event', icon, text, blog: blog||'', cat});
       } else {
         const img = block.querySelector('img.photo-preview');
         const caption = block.querySelector('.photo-block-caption').value.trim();
@@ -1940,39 +3032,58 @@ window.addEventListener('load',function(){
     fetch(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(cityEn||city)}&format=json&limit=1`)
       .then(r=>r.json()).then(data=>{
         const lat=data[0]?parseFloat(data[0].lat):20,lng=data[0]?parseFloat(data[0].lon):0;
-        const trip={
-          id:Date.now(), city, cityEn:cityEn||city,
+        const tripData={
+          city, cityEn:cityEn||city,
           country:data[0]?.display_name?.split(',').pop()?.trim()||'',
           flag:'🌍', lat, lng,
           date:date||new Date().toISOString().slice(0,7).replace('-','.'),
           duration:'', photos:0, days:0,
-          gradient:GRADS[trips.length%GRADS.length],
           coverPhoto: window._coverPhotoSrc||null,
           albumPhotos: [...window._album],
-          fc:FC[trips.length%FC.length],
           quote: blog ? blog.slice(0,60)+(blog.length>60?'...':'') : '새로운 여행의 시작.',
           quoteAttr:`${city}에서`,
           timeline,
           memo: blog||'아직 작성된 이야기가 없어요.',
-          mood:moodEl?moodEl.textContent:'설렘'
+          mood:moodEl?moodEl.textContent:'설렘',
+          tripTag
         };
-        trips.unshift(trip);
-        addMarker(trip);
-        renderList();
-        window._map.flyTo([lat,lng],6,{duration:1.6});
-        closeEditor();
+        if(window._editingTripId){
+          // 수정 모드
+          const idx = trips.findIndex(x=>x.id===window._editingTripId);
+          if(idx>-1){
+            trips[idx] = {...trips[idx], ...tripData};
+            renderMarkers(); renderList(); renderHomeFilter();
+            saveTripData(); closeEditor();
+            openDetail(window._editingTripId);
+          }
+        } else {
+          // 새 여행
+          const trip={id:Date.now(), gradient:GRADS[trips.length%GRADS.length], fc:FC[trips.length%FC.length], ...tripData};
+          trips.unshift(trip);
+          addMarker(trip);
+          renderHomeFilter(); renderList();
+          window._map.flyTo([lat,lng],6,{duration:1.6});
+          saveTripData(); closeEditor();
+        }
       }).catch(()=>{
-        // 오프라인이어도 추가
-        const trip={
-          id:Date.now(), city, cityEn:cityEn||city, country:'', flag:'🌍', lat:20, lng:0,
+        const tripData={
+          city, cityEn:cityEn||city, country:'', flag:'🌍', lat:20, lng:0,
           date:date||'2025', duration:'', photos:0, days:0,
-          gradient:GRADS[trips.length%GRADS.length], fc:FC[trips.length%FC.length],
+          coverPhoto: window._coverPhotoSrc||null,
+          albumPhotos: [...window._album],
           quote: blog?blog.slice(0,60):'새로운 여행의 시작.',
           quoteAttr:`${city}에서`, timeline,
           memo:blog||'아직 작성된 이야기가 없어요.',
-          mood:moodEl?moodEl.textContent:'설렘'
+          mood:moodEl?moodEl.textContent:'설렘',
+          tripTag
         };
-        trips.unshift(trip); addMarker(trip); renderList(); closeEditor();
+        if(window._editingTripId){
+          const idx = trips.findIndex(x=>x.id===window._editingTripId);
+          if(idx>-1){ trips[idx]={...trips[idx],...tripData}; renderMarkers(); renderList(); renderHomeFilter(); saveTripData(); closeEditor(); openDetail(window._editingTripId); }
+        } else {
+          const trip={id:Date.now(), gradient:GRADS[trips.length%GRADS.length], fc:FC[trips.length%FC.length], ...tripData};
+          trips.unshift(trip); addMarker(trip); renderHomeFilter(); renderList(); saveTripData(); closeEditor();
+        }
       });
   };
 });
@@ -2002,14 +3113,25 @@ function renderList(){
       </div>`;
     return;
   }
-  trips.forEach((t,i)=>{
-    const fc=FC[i%FC.length][0];
+  const filtered = window._activeFilter && window._activeFilter!=='all'
+    ? trips.filter(t=>(t.tripTag||'none')===window._activeFilter)
+    : trips;
+  if(filtered.length===0 && trips.length>0){
+    list.innerHTML=`<div class="empty-state"><div class="empty-icon">🔍</div><div class="t1" style="font-size:14px;font-weight:500;">해당 카테고리 여행이 없어요</div></div>`;
+    return;
+  }
+  filtered.forEach((t,i)=>{
+    const origIdx=trips.indexOf(t);
+    const fc=FC[origIdx%FC.length][0];
     const row=document.createElement('div');row.className='trip-row card';
-    // 커버사진 있으면 썸네일로
     const thumbStyle = t.coverPhoto
       ? `background:url(${t.coverPhoto}) center/cover no-repeat`
       : `background:linear-gradient(135deg,${fc[0]},${fc[1]})`;
-    row.innerHTML=`<div class="trip-thumb" style="${thumbStyle}"></div><div class="trip-info"><div class="trip-name t3">${t.flag} ${t.city}</div><div class="trip-meta t2">${t.date} · ${t.duration}</div></div><div class="trip-chevron">›</div>`;
+    const tagInfo = userCategories.find(x=>x.key===(t.tripTag||'none'));
+    const tagBadge = (t.tripTag && t.tripTag!=='none' && tagInfo)
+      ? `<span style="font-size:10px;background:${tagInfo.color};border-radius:20px;padding:2px 7px;margin-left:5px;opacity:0.9;">${tagInfo.label}</span>`
+      : '';
+    row.innerHTML=`<div class="trip-thumb" style="${thumbStyle}"></div><div class="trip-info"><div class="trip-name t3">${t.flag} ${t.city}${tagBadge}</div><div class="trip-meta t2">${t.date} · ${t.duration}</div></div><div class="trip-chevron">›</div>`;
     row.onclick=()=>openTicket(t.id);list.appendChild(row);
   });
 }
@@ -2052,6 +3174,31 @@ function openDetail(id){
   } else {
     t.fc.forEach(fc=>{const f=document.createElement('div');f.className='film-frame';f.innerHTML=`<div style="width:100%;height:100%;background:linear-gradient(135deg,${fc[0]},${fc[1]})"></div>`;strip.appendChild(f);});
   }
+  // 카테고리 필터 채우기
+  const CAT_LABELS = {general:'📌 전체',food:'🍜 맛집',stay:'🏨 숙소',spot:'🏔 명소',shop:'🛍 쇼핑',move:'✈️ 이동'};
+  const usedCats = new Set();
+  t.timeline.forEach(day=>day.events.forEach(e=>{ if(e.cat) usedCats.add(e.cat); }));
+  const cf = document.getElementById('catFilter');
+  cf.innerHTML = '';
+  if(usedCats.size > 0){
+    // 전체 버튼
+    const allBtn = document.createElement('button');
+    allBtn.className = 'cat-filter-btn active';
+    allBtn.dataset.cat = 'all';
+    allBtn.textContent = '📌 전체';
+    allBtn.onclick = ()=> filterByCat('all', allBtn);
+    cf.appendChild(allBtn);
+    usedCats.forEach(cat=>{
+      if(cat === 'general') return;
+      const btn = document.createElement('button');
+      btn.className = 'cat-filter-btn';
+      btn.dataset.cat = cat;
+      btn.textContent = CAT_LABELS[cat]||cat;
+      btn.onclick = ()=> filterByCat(cat, btn);
+      cf.appendChild(btn);
+    });
+  }
+
   const tl=document.getElementById('dTL'); tl.innerHTML='';
   t.timeline.forEach(day=>{
     const dayDiv = document.createElement('div');
@@ -2064,9 +3211,9 @@ function openDetail(id){
       const isLast = ei === day.events.length - 1;
       const item = document.createElement('div');
       item.className = 'thread-item';
+      item.dataset.cat = e.cat||'general';
 
       if(e.type === 'photo'){
-        // 사진 블록 — 아바타 없이 full width
         item.innerHTML = `
           <div class="thread-left">
             <div class="thread-avatar">📷</div>
@@ -2103,6 +3250,15 @@ function openDetail(id){
   const det=document.getElementById('screen-detail');det.style.display='flex';det.scrollTop=0;
   det.classList.add('screen-enter');setTimeout(()=>det.classList.remove('screen-enter'),380);
 }
+
+function filterByCat(cat, clickedBtn){
+  document.querySelectorAll('#catFilter .cat-filter-btn').forEach(b=>b.classList.remove('active'));
+  clickedBtn.classList.add('active');
+  document.querySelectorAll('#dTL .thread-item').forEach(item=>{
+    item.style.display = (cat==='all' || item.dataset.cat===cat) ? '' : 'none';
+  });
+}
 </script>
+
 </body>
 </html>

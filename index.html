@@ -544,14 +544,33 @@ body.theme-night  .pin-add-confirm{background:rgba(110,130,255,0.85);color:#fff;
 }
 .passport-cover{
   position:absolute;inset:0;
-  border-radius:4px 18px 18px 4px;
+  border-radius:4px 16px 16px 4px;
   backface-visibility:hidden;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;
-  background:linear-gradient(145deg,#1a3a6a,#0d2244);
-  box-shadow:4px 0 20px rgba(0,0,0,0.5), inset -2px 0 8px rgba(255,255,255,0.05);
-  border-left:4px solid #0a1628;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;
+  background:
+    repeating-linear-gradient(45deg, rgba(255,255,255,0.015) 0px, rgba(255,255,255,0.015) 1px, transparent 1px, transparent 8px),
+    linear-gradient(145deg,#1e3f78,#0d2550,#0a1e40);
+  box-shadow:4px 0 24px rgba(0,0,0,0.6), inset -2px 0 8px rgba(0,0,0,0.3), inset 1px 1px 0 rgba(255,255,255,0.06);
+  border-left:5px solid #08182e;
+  overflow:hidden;
+  padding:24px 20px 44px;
 }
-.passport-emblem{font-size:52px;opacity:0.9;}
+.passport-emblem{
+  width:72px;height:72px;
+  border-radius:50%;
+  border:1.5px solid rgba(180,210,255,0.35);
+  display:flex;align-items:center;justify-content:center;
+  position:relative;
+}
+.passport-emblem::before{
+  content:'';
+  position:absolute;inset:6px;border-radius:50%;
+  border:1px solid rgba(180,210,255,0.18);
+}
+.passport-emblem-inner{
+  font-size:30px;
+  filter:drop-shadow(0 0 8px rgba(160,200,255,0.4));
+}
 .passport-title{
   font-family:'Bebas Neue','DM Sans',sans-serif;
   font-size:22px;letter-spacing:0.18em;
@@ -815,11 +834,25 @@ body.theme-night  .thread-photo-caption{background:rgba(12,18,55,0.90);color:rgb
     <div class="passport-book" id="passportBook">
       <!-- 앞표지 -->
       <div class="passport-cover">
-        <div class="passport-emblem">✦</div>
+        <div style="font-size:8px;letter-spacing:0.22em;color:rgba(160,185,230,0.45);font-family:'DM Sans',sans-serif;text-transform:uppercase;margin-bottom:4px;">Republic of Travel</div>
+        <div class="passport-lines"></div>
+        <!-- 국장 -->
+        <div class="passport-emblem">
+          <div class="passport-emblem-inner">🌐</div>
+        </div>
         <div class="passport-lines"></div>
         <div class="passport-title">ZEPHYR</div>
-        <div class="passport-subtitle">Travel Diary</div>
-        <div class="passport-lines"></div>
+        <div class="passport-subtitle">TRAVEL PASSPORT · 여행 여권</div>
+        <div style="margin-top:16px;display:flex;gap:6px;">
+          <div style="width:22px;height:2px;background:rgba(160,185,230,0.30);border-radius:2px;"></div>
+          <div style="width:10px;height:2px;background:rgba(160,185,230,0.20);border-radius:2px;"></div>
+          <div style="width:22px;height:2px;background:rgba(160,185,230,0.30);border-radius:2px;"></div>
+        </div>
+        <!-- 하단 기계판독 띠 -->
+        <div style="position:absolute;bottom:0;left:0;right:0;height:38px;background:rgba(0,0,0,0.18);border-radius:0 0 14px 0;padding:6px 10px;display:flex;flex-direction:column;gap:3px;justify-content:center;">
+          <div style="font-family:monospace;font-size:6.5px;letter-spacing:0.08em;color:rgba(160,185,230,0.30);">P&lt;TRV&lt;ZEPHYR&lt;&lt;TRAVEL&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;</div>
+          <div style="font-family:monospace;font-size:6.5px;letter-spacing:0.08em;color:rgba(160,185,230,0.30);">A00000000&lt;0TRV0000000000&lt;0000000000000&lt;0</div>
+        </div>
       </div>
       <!-- 안쪽 (펼쳐졌을 때) -->
       <div class="passport-inner">
@@ -1337,6 +1370,25 @@ function initGlobe(){
     }
   });
 
+  // 초기 위치 설정 함수
+  function setGlobeView(lat, lng){
+    // 경도 → rotY, 위도 → rotX
+    rotY = -(lng + 180) * Math.PI / 180;
+    rotX = lat * Math.PI / 180 * 0.6;
+    earth.rotation.y = rotY;
+    earth.rotation.x = Math.max(-1.2, Math.min(1.2, rotX));
+  }
+
+  // 내 위치에서 시작
+  if(navigator.geolocation){
+    navigator.geolocation.getCurrentPosition(
+      pos => setGlobeView(pos.coords.latitude, pos.coords.longitude),
+      ()  => { if(trips.length>0) setGlobeView(trips[0].lat, trips[0].lng); }
+    );
+  } else if(trips.length>0){
+    setGlobeView(trips[0].lat, trips[0].lng);
+  }
+
   // 리사이즈
   function onResize(){
     const w=mount.offsetWidth, h=mount.offsetHeight;
@@ -1616,19 +1668,11 @@ function previewPhoto(input){
 // ── 여권 인트로 ──
 (function(){
   const intro = document.getElementById('passport-intro');
-  const book = document.getElementById('passportBook');
-  // 탭하면 닫기
+  // 탭해야만 닫기 (자동 닫기 없음)
   intro.addEventListener('click', () => {
     intro.classList.add('passport-fade-out');
     setTimeout(() => { intro.style.display='none'; }, 600);
   });
-  // 2.8초 후 자동 닫기
-  setTimeout(() => {
-    if(intro.style.display !== 'none'){
-      intro.classList.add('passport-fade-out');
-      setTimeout(() => { intro.style.display='none'; }, 600);
-    }
-  }, 3800);
 })();
 
 // ── 티켓 ──
@@ -1864,7 +1908,7 @@ function setTheme(th){
 
 // ── 지도 ──
 window.addEventListener('load',function(){
-  window._map=L.map('map',{center:[30,20],zoom:2,minZoom:2,maxZoom:16});
+  window._map=L.map('map',{center:[30,20],zoom:2,minZoom:1,maxZoom:16,zoomSnap:0.5,zoomDelta:0.5});
   window._mg=L.layerGroup().addTo(window._map);
   window._tl=L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap',maxZoom:19}).addTo(window._map);
   trips.forEach(addMarker);renderList();
